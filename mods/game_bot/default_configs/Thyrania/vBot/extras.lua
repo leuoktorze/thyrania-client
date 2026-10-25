@@ -1,4 +1,4 @@
-setDefaultTab("Main")
+setDefaultTab("Início")
 
 -- securing storage namespace
 local panelName = "extras"
@@ -115,34 +115,34 @@ UI.Separator()
 --- add callback (optional)
 --- optionals should be addionaly sandboxed (if true then end)
 
-addItem("rope", "Rope Item", 9596, leftPanel,
+addItem("rope", "Item corda", 9596, leftPanel,
   "This item will be used in various bot related scripts as default rope item.")
-addItem("shovel", "Shovel Item", 9596, leftPanel,
+addItem("shovel", "Item pá", 9596, leftPanel,
   "This item will be used in various bot related scripts as default shovel item.")
-addItem("machete", "Machete Item", 9596, leftPanel,
+addItem("machete", "Item machete", 9596, leftPanel,
   "This item will be used in various bot related scripts as default machete item.")
-addItem("scythe", "Scythe Item", 9596, leftPanel,
+addItem("scythe", "Item foice", 9596, leftPanel,
   "This item will be used in various bot related scripts as default scythe item.")
-addCheckBox("pathfinding", "CaveBot Pathfinding", true, leftPanel,
+addCheckBox("pathfinding", "Caminho inteligente", true, leftPanel,
   "Cavebot will automatically search for first reachable waypoint after missing 10 goto's.")
-addScrollBar("talkDelay", "Global NPC Talk Delay", 0, 2000, 1000, leftPanel,
+addScrollBar("talkDelay", "Atraso ao falar com NPC", 0, 2000, 1000, leftPanel,
   "Breaks between each talk action in cavebot (time in miliseconds).")
 addScrollBar("looting", "Max Loot Distance", 0, 50, 40, leftPanel,
   "Every loot corpse futher than set distance (in sqm) will be ignored and forgotten.")
 addScrollBar("lootDelay", "Loot Delay", 0, 1000, 200, leftPanel,
   "Wait time for loot container to open. Lower value means faster looting. \n WARNING if you are having looting issues(e.g. container is locked in closing/opnening), increase this value.")
-addScrollBar("huntRoutes", "Hunting Rounds Limit", 0, 300, 50, leftPanel,
+addScrollBar("huntRoutes", "Limite de rounds", 0, 300, 50, leftPanel,
   "Round limit for supply check, if character already made more rounds than set, on next supply check will return to city.")
-addScrollBar("killUnder", "Kill monsters below", 0, 100, 1, leftPanel,
+addScrollBar("killUnder", "Matar monstros abaixo de", 0, 100, 1, leftPanel,
   "Force TargetBot to kill added creatures when they are below set percentage of health - will ignore all other TargetBot settings.")
 addScrollBar("gotoMaxDistance", "Max GoTo Distance", 0, 127, 30, leftPanel,
   "Maximum distance to next goto waypoint for the bot to try to reach.")
-addCheckBox("lootLast", "Start loot from last corpse", true, leftPanel,
+addCheckBox("lootLast", "Lootear do último corpo", true, leftPanel,
   "Looting sequence will be reverted and bot will start looting newest bodies.")
-addCheckBox("joinBot", "Join TargetBot and CaveBot", false, leftPanel, "Cave and Target tabs will be joined into one.")
-addCheckBox("reachable", "Target only pathable mobs", false, leftPanel, "Ignore monsters that can't be reached.")
+addCheckBox("joinBot", "Juntar abas", false, leftPanel, "Cave and Target tabs will be joined into one.")
+addCheckBox("reachable", "Só atacar monstros alcançáveis", false, leftPanel, "Ignore monsters that can't be reached.")
 
-addCheckBox("title", "Custom Window Title", true, rightPanel,
+addCheckBox("title", "Título da janela", true, rightPanel,
   "Personalize OTCv8 window name according to character specific.")
 if true then
   local vocText = ""
@@ -172,7 +172,7 @@ if true then
   end)
 end
 
-addCheckBox("separatePm", "Open PM's in new Window", false, rightPanel,
+addCheckBox("separatePm", "Abrir PMs em nova janela", false, rightPanel,
   "PM's will be automatically opened in new tab after receiving one.")
 if true then
   onTalk(function(name, level, mode, text, channelId, pos)
@@ -189,7 +189,7 @@ if true then
   end)
 end
 
-addTextEdit("useAll", "Use All Hotkey", "space", rightPanel,
+addTextEdit("useAll", "Atalho usar tudo", "space", rightPanel,
   "Set hotkey for universal actions - rope, shovel, scythe, use, open doors")
 if true then
   local useId = { 34847, 1764, 21051, 30823, 6264, 5282, 20453, 20454, 20474, 11708, 11705,
@@ -203,7 +203,7 @@ if true then
   local macheteId = { 2130, 3696 }
   local scytheId = { 3653 }
 
-  setDefaultTab("Tools")
+  setDefaultTab("Ferramentas")
   -- script
   if settings.useAll and settings.useAll:len() > 0 then
     hotkey(settings.useAll, function()
@@ -235,7 +235,7 @@ if true then
   end
 end
 
-addCheckBox("timers", "MW & WG Timers", true, rightPanel, "Show times for Magic Walls and Wild Growths.")
+addCheckBox("timers", "Tempo de MW e WG", true, rightPanel, "Show times for Magic Walls and Wild Growths.")
 if true then
   local activeTimers = {}
 
@@ -273,7 +273,7 @@ if true then
   end)
 end
 
-addCheckBox("antiKick", "Anti - Kick", true, rightPanel, "Turn every 10 minutes to prevent kick.")
+addCheckBox("antiKick", "Anti-kick", true, rightPanel, "Turn every 10 minutes to prevent kick.")
 if true then
   macro(600 * 1000, function()
     if not settings.antiKick then return end
@@ -283,7 +283,7 @@ if true then
   end)
 end
 
-addCheckBox("stake", "Skin Monsters", false, leftPanel, "Automatically skin & stake corpses when cavebot is enabled")
+addCheckBox("stake", "Esfolar monstros", false, leftPanel, "Automatically skin & stake corpses when cavebot is enabled")
 if true then
   local knifeBodies = { 4286, 4272, 4173, 4011, 4025, 4047, 4052, 4057, 4062, 4112, 4212, 4321, 4324, 4327, 10352, 10356,
     10360, 10364 }
@@ -342,7 +342,7 @@ if true then
   end)
 end
 
-addCheckBox("autoOpenDoors", "Auto Open Doors", true, rightPanel, "Open doors when trying to step on them.")
+addCheckBox("autoOpenDoors", "Abrir portas sozinho", true, rightPanel, "Open doors when trying to step on them.")
 if true then
   local doorsIds = { 5007, 8265, 1629, 1632, 5129, 6252, 6249, 7715, 7712, 7714,
     7719, 6256, 1669, 1672, 5125, 5115, 5124, 17701, 17710, 1642,
@@ -389,7 +389,7 @@ if true then
   end)
 end
 
-addCheckBox("bless", "Buy bless at login", true, rightPanel, "Say !bless at login.")
+addCheckBox("bless", "Comprar bless ao logar", true, rightPanel, "Say !bless at login.")
 if true then
   local blessed = false
   onTextMessage(function(mode, text)
@@ -415,7 +415,7 @@ if true then
   end
 end
 
-addCheckBox("reUse", "Keep Crosshair", false, rightPanel, "Keep crosshair after using with item")
+addCheckBox("reUse", "Manter mira", false, rightPanel, "Keep crosshair after using with item")
 if true then
   local excluded = { 268, 237, 238, 23373, 266, 236, 239, 7643, 23375, 7642, 23374, 5908, 5942 }
 
@@ -444,10 +444,10 @@ if true then
   end)
 end
 
-addCheckBox("holdMwall", "Hold MW/WG", true, rightPanel,
+addCheckBox("holdMwall", "Segurar MW/WG", true, rightPanel,
   "Mark tiles with below hotkeys to automatically use Magic Wall or Wild Growth")
-addTextEdit("holdMwHot", "Magic Wall Hotkey: ", "F5", rightPanel)
-addTextEdit("holdWgHot", "Wild Growth Hotkey: ", "F6", rightPanel)
+addTextEdit("holdMwHot", "Atalho magic wall: ", "F5", rightPanel)
+addTextEdit("holdWgHot", "Atalho wild growth: ", "F6", rightPanel)
 if true then
   local hold = 0
   local mwHot
@@ -543,7 +543,7 @@ if true then
   end)
 end
 
-addCheckBox("checkPlayer", "Check Players", false, rightPanel, "Auto look on players and mark level and vocation on character model")
+addCheckBox("checkPlayer", "Checar jogadores", false, rightPanel, "Auto look on players and mark level and vocation on character model")
 if true then
   local found
   local function checkPlayers()
@@ -612,7 +612,7 @@ if true then
   end)
 end
 
-addCheckBox("nextBackpack", "Open Next Loot Container", true, leftPanel,
+addCheckBox("nextBackpack", "Abrir próxima bag de loot", true, leftPanel,
   "Auto open next loot container if full - has to have the same ID.")
 local function openNextLootContainer()
   if not settings.nextBackpack then return end
@@ -646,7 +646,7 @@ if true then
   end)
 end
 
-addCheckBox("highlightTarget", "Highlight Current Target", true, rightPanel,
+addCheckBox("highlightTarget", "Destacar o alvo", true, rightPanel,
   "Additionaly hightlight current target with red glow")
 if true then
   local function forceMarked(creature)

@@ -22,7 +22,7 @@ function executeBot(config, storage, tabs, msgCallback, saveConfigCallback, relo
   local context = {}
   context.configDir = "/bot/".. config
   context.tabs = tabs
-  context.mainTab = context.tabs:addTab("Main", g_ui.createWidget('BotPanel')).tabPanel.content
+  context.mainTab = context.tabs:addTab("Início", g_ui.createWidget('BotPanel')).tabPanel.content
   context.panel = context.mainTab
   context.saveConfig = saveConfigCallback
   context.reload = reloadCallback

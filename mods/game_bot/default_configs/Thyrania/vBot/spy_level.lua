@@ -2,7 +2,7 @@
 
 local keyUp = "="
 local keyDown = "-"
-setDefaultTab("Tools")
+setDefaultTab("Ferramentas")
 
 -- script
 

@@ -1,4 +1,4 @@
-setDefaultTab("Main")
+setDefaultTab("Início")
   local panelName = "advancedFriendHealer"
   local ui = setupUI([[
 Panel
@@ -123,13 +123,13 @@ Panel
 
     -- functions
     local updateMinManaText = function()
-      sioListWindow.manaInfo:setText("Minimum Mana >= " .. config.minMana .. "%")
+      sioListWindow.manaInfo:setText("Mana mínima >= " .. config.minMana .. "%")
     end
     local updateFriendHpText = function()
-      sioListWindow.friendHp:setText("Heal Friend Below " .. config.minFriendHp .. "% hp")
+      sioListWindow.friendHp:setText("Curar amigo abaixo de " .. config.minFriendHp .. "% hp")
     end
     local updateDistanceText = function()
-      sioListWindow.distText:setText("Max Distance: " .. config.distance)
+      sioListWindow.distText:setText("Distância máxima: " .. config.distance)
     end
 
     -- scrollbars and text updates

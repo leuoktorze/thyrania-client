@@ -1,4 +1,4 @@
-setDefaultTab("Tools")
+setDefaultTab("Ferramentas")
 
 local ui = setupUI([[
 Panel

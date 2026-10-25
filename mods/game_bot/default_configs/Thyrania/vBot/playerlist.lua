@@ -16,7 +16,7 @@ local link = "https://www.gunzodus.net/character/show/"
 local spacing = "_"
 
 -- do not edit below
-setDefaultTab("Main")
+setDefaultTab("Início")
 local tabs = {"Friends", "Enemies", "BlackList"}
 local panelName = "playerList"
 local colors = {"#03C04A", "#fc4c4e", "orange"}

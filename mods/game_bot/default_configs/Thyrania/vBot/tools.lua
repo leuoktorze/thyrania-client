@@ -1,10 +1,10 @@
 -- tools tab
-setDefaultTab("Tools")
+setDefaultTab("Ferramentas")
 
 if type(storage.moneyItems) ~= "table" then
   storage.moneyItems = {3031, 3035}
 end
-macro(1000, "Exchange money", function()
+macro(1000, "Trocar gold", function()
   if not storage.moneyItems[1] then return end
   
   -- Check for Magic Gold Converter in open containers
@@ -57,7 +57,7 @@ moneyContainer:setItems(storage.moneyItems)
 
 UI.Separator()
 
-macro(60000, "Send message on trade", function()
+macro(60000, "Mandar mensagem no trade", function()
   local trade = getChannelId("advertising")
   if not trade then
     trade = getChannelId("trade")

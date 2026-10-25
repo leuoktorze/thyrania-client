@@ -4,7 +4,7 @@ local standByItems = false
 local red = "#ff0800" -- "#ff0800" / #ea3c53 best
 local blue = "#7ef9ff"
 
-setDefaultTab("HP")
+setDefaultTab("Cura")
 local healPanelName = "healbot"
 local ui = setupUI([[
 Panel
@@ -192,7 +192,7 @@ if rootWidget then
       vBotConfigSave("heal")
       healWindow.healer:show()
       healWindow.settings:hide()
-      healWindow.settingsButton:setText("Settings")
+      healWindow.settingsButton:setText("Configurações")
     end
   end
 
@@ -200,11 +200,11 @@ if rootWidget then
     if healWindow.healer:isVisible() then
       healWindow.healer:hide()
       healWindow.settings:show()
-      widget:setText("Back")
+      widget:setText("Voltar")
     else
       healWindow.healer:show()
       healWindow.settings:hide()
-      widget:setText("Settings")
+      widget:setText("Configurações")
     end
   end
 

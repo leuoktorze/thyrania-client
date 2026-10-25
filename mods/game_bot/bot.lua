@@ -196,7 +196,7 @@ function loadConfigsList()
       refresh()
     else
       statusLabel:setOn(true)
-      statusLabel:setText("Status: login to enable bot")
+      statusLabel:setText("Status: entre no jogo para ligar")
     end
   end
   configList.onOptionChange = function(widget)
@@ -251,7 +251,7 @@ function refresh()
 
   if not g_game.isOnline() or not settings[index].enabled then
     statusLabel:setOn(true)
-    statusLabel:setText("Status: disabled\nPress off button to enable")
+    statusLabel:setText("Status: desligado\nClique no botão off para ligar")
     analyzerButton = modules.game_mainpanel.getButton("botAnalyzersButton")
     if analyzerButton then
       analyzerButton:destroy()
@@ -350,7 +350,7 @@ end
 
 function onError(message)
   statusLabel:setOn(true)
-  statusLabel:setText("Error:\n" .. message)
+  statusLabel:setText("Erro:\n" .. message)
   g_logger.error("[BOT] " .. message)
 end
 

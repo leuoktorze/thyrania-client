@@ -949,9 +949,9 @@ end
     panel.minHp:setValue(0)
     panel.maxHp:setValue(100)
     panel.cooldown:setText(1)
-    panel.monsters:setText("monster names")
+    panel.monsters:setText("nomes dos monstros")
     panel.itemId:setItemId(0)
-    panel.spellName:setText("spell name")
+    panel.spellName:setText("nome da magia")
     panel.orMore:setChecked(false)
   end
   resetFields()

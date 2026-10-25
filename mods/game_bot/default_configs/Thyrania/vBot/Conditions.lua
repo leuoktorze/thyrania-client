@@ -1,4 +1,4 @@
-setDefaultTab("HP")
+setDefaultTab("Cura")
 local panelName = "ConditionPanel"
 local ui = setupUI([[
 Panel

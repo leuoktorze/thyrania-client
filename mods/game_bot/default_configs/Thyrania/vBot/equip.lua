@@ -1,5 +1,5 @@
 -- config
-setDefaultTab("HP")
+setDefaultTab("Cura")
 local scripts = 2 -- if you want more auto equip panels you can change 2 to higher value
 
 -- script by kondrah, don't edit below unless you know what you are doing

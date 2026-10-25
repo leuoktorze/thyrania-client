@@ -1,4 +1,4 @@
-setDefaultTab("Cave")
+setDefaultTab("Hunt")
 local panelName = "supplies"
 if not SuppliesConfig[panelName] or SuppliesConfig[panelName].item1 then
   SuppliesConfig[panelName] = {
@@ -231,7 +231,7 @@ local function refreshProfileList()
     if type(v) == "table" then
       local label = UI.createWidget("ProfileLabel", SuppliesWindow.profiles)
       label:setText(k)
-      label:setTooltip("Click to load this profile. \nDouble click to change the name.")
+      label:setTooltip("Clique para usar este perfil.\nClique duas vezes para mudar o nome.")
       label.remove.onClick = function()
         local childs = SuppliesWindow.profiles:getChildCount()
         if childs == 1 then

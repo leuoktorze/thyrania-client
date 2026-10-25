@@ -293,7 +293,7 @@ listPanel.down:setEnabled(false)
 
 -- correct background image
 for i, widget in ipairs(slotWidgets) do
-    widget:setTooltip("Right click to set as slot to unequip")
+    widget:setTooltip("Clique direito para escolher o slot para desequipar")
     widget.onItemChange = function(widget)
         local selfId = widget:getItemId()
         widget:setOn(selfId > 100)

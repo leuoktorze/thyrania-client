@@ -1,9 +1,9 @@
-setDefaultTab("Tools")
+setDefaultTab("Ferramentas")
 g_game.cancelAttackAndFollow()
 
 local frags = 0
 local unequip = false
-local m = macro(50, "AntiRS & Msg", function() end)
+local m = macro(50, "AntiRS e mensagens", function() end)
 
 function safeExit()
     CaveBot.setOff()

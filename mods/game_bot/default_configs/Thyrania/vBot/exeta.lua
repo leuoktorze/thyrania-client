@@ -1,8 +1,8 @@
 local voc = player:getVocation()
 if voc == 1 or voc == 11 or voc == 5 or voc == 15 then
-    setDefaultTab("Cave")
+    setDefaultTab("Hunt")
     UI.Separator()
-    local m = macro(100000, "Exeta when low hp", function() end)
+    local m = macro(100000, "Exeta com vida baixa", function() end)
     local lastCast = now
     onCreatureHealthPercentChange(function(creature, healthPercent)
         if m.isOff() then return end

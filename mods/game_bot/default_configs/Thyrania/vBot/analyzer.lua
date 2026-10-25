@@ -275,7 +275,7 @@ function createBossPanel(bossName, dueTime)
     widget.cooldown:setText(newTimeFormat(timeLeft))
     widget.cooldown:setColor('#f29257')
   else
-    widget.cooldown:setText("No Cooldown")
+    widget.cooldown:setText("Sem cooldown")
     widget.cooldown:setColor('#b8b8b8')
   end
 end
@@ -406,16 +406,16 @@ local function createTrackedItems()
       item:setItemCount(1)
     end
     name:setText(itemName)
-    drops:setText("Loot Drops: "..v)
+    drops:setText("Drops: "..v)
 
     dropLoot.onDoubleClick = function()
       local id = dropLoot.item:getItemId()
       trackedLoot[tostring(id)] = 0
-      drops:setText("Loot Drops: 0")
+      drops:setText("Drops: 0")
     end
 
     for i, child in pairs(dropLoot:getChildren()) do
-      child:setTooltip("Double click to reset or clear item to remove.")
+      child:setTooltip("Clique duas vezes para limpar ou remover o item.")
     end
 
     item.onItemChange = function(widget)
@@ -428,8 +428,8 @@ local function createTrackedItems()
         end
         widget:setImageSource('/images/ui/item')
         widget:getParent():setId("blank")
-        name:setText("Set Item to start track.")
-        drops:setText("Loot Drops: 0")
+        name:setText("Escolha o item para começar.")
+        drops:setText("Drops: 0")
         return
       end
 
@@ -439,13 +439,13 @@ local function createTrackedItems()
 
       if trackedLoot[tostring(id)] then
         warn("vBot[Drop Tracker]: Item already added!")
-        name:setText("Set Item to start track.")
+        name:setText("Escolha o item para começar.")
         widget:setItemId(0)
         return
       end
 
       widget:setImageSource('')
-      drops:setText("Loot Drops: 0")
+      drops:setText("Drops: 0")
       name:setText(itemName)
       trackedLoot[tostring(id)] = trackedLoot[tostring(id)] or 0
       widget:getParent():setId(id)
@@ -466,11 +466,11 @@ UI.Button("Add item to track drops", function()
   dropLoot.onDoubleClick = function()
     local id = dropLoot.item:getItemId()
     trackedLoot[tostring(id)] = 0
-    drops:setText("Loot Drops: 0")
+    drops:setText("Drops: 0")
   end
 
   for i, child in pairs(dropLoot:getChildren()) do
-    child:setTooltip("Double click to reset or clear item to remove.")
+    child:setTooltip("Clique duas vezes para limpar ou remover o item.")
   end
 
   item.onItemChange = function(widget)
@@ -484,8 +484,8 @@ UI.Button("Add item to track drops", function()
       end
       widget:setImageSource('/images/ui/item')
       widget:getParent():setId("blank")
-      name:setText("Set Item to start track.")
-      drops:setText("Loot Drops: 0")
+      name:setText("Escolha o item para começar.")
+      drops:setText("Drops: 0")
       return
     end
 
@@ -495,13 +495,13 @@ UI.Button("Add item to track drops", function()
 
     if trackedLoot[tostring(id)] then
       warn("vBot[Drop Tracker]: Item already added!")
-      name:setText("Set Item to start track.")
+      name:setText("Escolha o item para começar.")
       widget:setItemId(0)
       return
     end
 
     widget:setImageSource('')
-    drops:setText("Loot Drops: 0")
+    drops:setText("Drops: 0")
     name:setText(itemName)
     trackedLoot[tostring(id)] = trackedLoot[tostring(id)] or 0
     widget:getParent():setId(id)
@@ -598,7 +598,7 @@ local xpGraph = UI.createWidget("AnalyzerGraph", xpWindow.contentsPanel)
 --#############################################
 --#############################################
 
-setDefaultTab("Main")
+setDefaultTab("Início")
 -- first, the variables
 
 local console = modules.game_console
@@ -926,7 +926,7 @@ onTextMessage(function(mode, text)
 
                   if childName and formattedLoot:find(childName) then
                     trackedLoot[tostring(child.item:getItemId())] = trackedLoot[tostring(child.item:getItemId())] + (amount or 1)
-                    child.drops:setText("Loot Drops: "..trackedLoot[tostring(child.item:getItemId())])
+                    child.drops:setText("Drops: "..trackedLoot[tostring(child.item:getItemId())])
 
                     hightlightText(child.name,"#f0b400", 8)
                     modules.game_textmessage.messagesPanel.statusLabel:setVisible(true)
@@ -1358,7 +1358,7 @@ function refreshLoot()
 
     if lootItems:getChildCount() == 0 then
       local label = UI.createWidget("ListLabel", lootList)
-      label:setText("None")
+      label:setText("Nenhum")
     end
 end
 refreshLoot()
@@ -1374,7 +1374,7 @@ function refreshKills()
 
     if kills == 0 then
       local label = UI.createWidget("ListLabel", killedList)
-      label:setText("None")
+      label:setText("Nenhum")
     end
 end
 refreshKills()

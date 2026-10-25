@@ -1,4 +1,4 @@
-setDefaultTab("HP")
+setDefaultTab("Cura")
 if voc() ~= 1 and voc() ~= 11 and voc() ~= 5 and voc() ~= 15 then
     if storage.foodItems then
         local t = {}
@@ -14,7 +14,7 @@ if voc() ~= 1 and voc() ~= 11 and voc() ~= 5 and voc() ~= 15 then
             end
         end
     end
-    macro(500, "Cast Food", function()
+    macro(500, "Magia de comida", function()
         if player:getRegenerationTime() <= 400 then
             cast("exevo pan", 5000)
         end

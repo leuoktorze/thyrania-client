@@ -1,4 +1,4 @@
-setDefaultTab("Main")
+setDefaultTab("Início")
 local panelName = "newHealer"
 local ui = setupUI([[
 Panel
@@ -114,7 +114,7 @@ customList.playerList.onDoubleClick = function()
 end
 
 local function clearFields()
-    customList.addPanel.name:setText("friend name")
+    customList.addPanel.name:setText("nome do amigo")
     customList.addPanel.health:setText("1")
     customList.playerList:show()
 end
@@ -340,7 +340,7 @@ for i, action in ipairs(config.priorities) do
         widget.onTextChange = function(widget,text)
             action.name = text
         end
-        widget:setTooltip("Double click to set spell formula.")
+        widget:setTooltip("Clique duas vezes para definir a fórmula da magia.")
     end
 
     if i == #config.priorities then

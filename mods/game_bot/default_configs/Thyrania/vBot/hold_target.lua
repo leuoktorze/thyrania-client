@@ -1,4 +1,4 @@
-setDefaultTab("Tools")
+setDefaultTab("Ferramentas")
 
 local targetID = nil
 
@@ -9,7 +9,7 @@ onKeyPress(function(keys)
     end
 end)
 
-macro(100, "Hold Target", function()
+macro(100, "Manter alvo", function()
     -- if attacking then save it as target, but check pos z in case of marking by mistake on other floor
     if target() and target():getPosition().z == posz() and not target():isNpc() then
         targetID = target():getId()

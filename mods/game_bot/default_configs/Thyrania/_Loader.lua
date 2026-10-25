@@ -51,4 +51,4 @@ for i, file in ipairs(luaFiles) do
   loadScript(file)
 end
 
-setDefaultTab("Main")
+setDefaultTab("Início")

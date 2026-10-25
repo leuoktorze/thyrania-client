@@ -1,4 +1,4 @@
-setDefaultTab("Tools")
+setDefaultTab("Ferramentas")
 local panelName = "renameContainers"
 if type(storage[panelName]) ~= "table" then
     storage[panelName] = {

@@ -64,7 +64,7 @@ if voc() == 2 or voc() == 12 then
     end
 
     UI.Separator()
-    macro(100, "Quiver Manager", function()
+    macro(100, "Aljava", function()
         if hold then return end -- do nothing if nothing to do
         local hand = getLeft() and getLeft():getId()
         local quiverEquipped = getRight() and getRight():isContainer()
