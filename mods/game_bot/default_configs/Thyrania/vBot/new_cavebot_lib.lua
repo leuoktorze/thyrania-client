@@ -23,8 +23,13 @@ local LOCKER_ACCESSTILE_MODIFIERS = {
 }
 
 local function CaveBotConfigParse()
-	local name = storage["_configs"]["targetbot_configs"]["selected"]
+	-- Thyrania: sem Targetbot não existe config de looting
+	local cfg = storage["_configs"] and storage["_configs"]["targetbot_configs"]
+	local name = cfg and cfg["selected"]
     if not name then
+        return nil
+    end
+    if false then
         return warn("[vBot] Please create a new TargetBot config and reset bot")
     end
 	local file = configDir .. "/targetbot_configs/" .. name .. ".json"

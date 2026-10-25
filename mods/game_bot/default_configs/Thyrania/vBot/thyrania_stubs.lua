@@ -7,8 +7,12 @@ CaveBot.isOff = function() return true end
 CaveBot.setOn = function() return false end
 CaveBot.setOff = function() return true end
 CaveBot.delay = function() return true end
-CaveBot.walkTo = CaveBot.walkTo or function() return false end
-CaveBot.GetLootContainers = CaveBot.GetLootContainers or function() return {} end
+CaveBot.walkTo = function() return false end
+-- sem Targetbot não há lista de loot nem bags de loot
+CaveBot.GetLootItems = function() return {} end
+CaveBot.HasLootItems = function() return false end
+CaveBot.GetLootContainers = function() return {} end
+CaveBot.GetOpenedLootContainers = function() return {} end
 CaveBot.Extensions = {}
 
 TargetBot = {}
