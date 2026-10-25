@@ -74,7 +74,7 @@ end
 
 local DEFAULT_ENCODER = base64.makeencoder()
 local DEFAULT_DECODER = base64.makedecoder()
-local SITE_DECODER = base64.makedecoder('-', '_', '')
+
 local char, concat = string.char, table.concat
 
 function base64.encode( str, encoder, usecaching )
@@ -107,10 +107,6 @@ function base64.encode( str, encoder, usecaching )
 		t[k] = char(encoder[extract(v,18,6)], encoder[extract(v,12,6)], encoder[64], encoder[64])
 	end
 	return concat( t )
-end
-
-function base64.sitedecode(b64, usecaching)
-	return base64.decode(b64, SITE_DECODER, usecaching)
 end
 
 function base64.decode( b64, decoder, usecaching )
@@ -158,11 +154,6 @@ function base64.decode( b64, decoder, usecaching )
 		t[k] = char( extract(v,16,8))
 	end
 	return concat( t )
-end
-
-function base64.isValidBase64(str)
-    local success, decoded = pcall(base64.decode, str)
-    return success and decoded ~= nil and #decoded > 0
 end
 
 --[[

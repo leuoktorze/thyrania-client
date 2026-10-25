@@ -1,166 +1,86 @@
--- this is the first file executed when the application starts
--- we have to load the first modules form here
+-- CONFIG
+APP_NAME = "thyrania"  -- important, change it, it's name for config dir and files in appdata
+APP_VERSION = 1341       -- client version for updater and login to identify outdated client
+DEFAULT_LAYOUT = "retro" -- on android it's forced to "mobile", check code bellow
 
--- updater
+-- If you don't use updater or other service, set it to updater = ""
 Services = {
-    --updater = "http://localhost/api/updater.php", --./updater
-    --status = "http://localhost/login.php", --./client_entergame | ./client_topmenu
-    --websites = "http://localhost/?subtopic=accountmanagement", --./client_entergame "Forgot password and/or email"
-    --createAccount = "http://localhost/clientcreateaccount.php", --./client_entergame -- createAccount.lua
-    --getCoinsUrl = "http://localhost/?subtopic=shop&step=terms", --./game_market
-    clientAssets = {
-        enabled = true,
-        repository = "dudantas/tibia-client",
-        installSounds = true,
-        strictManifestSha256 = true,
-        allowRawFallbackHashMismatch = false,
-        allowMissingPackedRawFallback = true,
-        preferArchive = true,
-        fallbackToArchiveOnManifestFailure = false,
-        installArchiveExtras = true,
-        archiveExtraPrefixes = { "bin" },
-        installPackagedFiles = true
-    }, -- ./client_assets
+  website = "",
+  updater = "",
+  stats = "",
+  crash = "",
+  feedback = "",
+  status = ""
 }
 
---- Enables or disables the entire server configuration block.
--- Set to `false` to disable all configuration below.
-local ENABLE_SERVERS = true
+-- Servers accept http login url, websocket login url or ip:port:version
+Servers = {
+  Thyrania = "127.0.0.1:7171:860"
+}
 
----
--- @module Servers_init
--- Configuration table for all servers used by the system.
---
--- This entire block is conditionally enabled based on ENABLE_SERVERS.
--- When ENABLE_SERVERS == false, everything is ignored/disabled.
---
+--Server = "ws://otclient.ovh:3000/"
+--Server = "ws://127.0.0.1:88/"
+--USE_NEW_ENERGAME = true -- uses entergamev2 based on websockets instead of entergame
+ALLOW_CUSTOM_SERVERS = false -- if true it shows option ANOTHER on server list
 
----
--- Server configuration system for multi-server or multi-world clients.
---
--- This structure allows a single client build to connect to multiple servers
--- without requiring duplicate client folders.
---
--- A server that hosts several worlds, or that provides a separate test environment,
--- can simply define additional entries inside this configuration table.
---
--- Instead of maintaining multiple client installations (one per world/server),
--- the client can switch between servers by selecting the desired configuration entry.
--- This simplifies testing, avoids redundant directories, and centralizes connection settings.
---
--- The ENABLE_SERVERS flag allows the entire configuration block to be enabled or disabled
--- without deleting or commenting out individual entries.
---
-
-Servers_init = {}
-
-if ENABLE_SERVERS then
-
-    ---
-    -- List of servers and their configuration parameters.
-    -- Each entry defines port, protocol, and authentication options.
-    -- @table Servers_init
-    --
-    Servers_init = {
-        -- Thyrania (servidor no próprio PC, Docker). Quando o servidor for para a VPS, trocar o IP aqui.
-        ["http://127.0.0.1:8088/login"] = {
-            port = 8088,
-            protocol = 1525,
-            httpLogin = true,
-            useAuthenticator = false
-        },
-    }
-end
-
-g_app.setName("Thyrania");
-g_app.setCompactName("otclient");
-g_app.setOrganizationName("otcr");
-
-g_app.hasUpdater = function()
-    return (Services.updater and Services.updater ~= "" and g_modules.getModule("updater"))
-end
-
--- setup logger
-g_logger.setLogFile(g_resources.getWorkDir() .. g_app.getCompactName() .. '.log')
-g_logger.info("Operating system: " .. g_platform.getOSName())
+g_app.setName("Thyrania")
+-- CONFIG END
 
 -- print first terminal message
-g_logger.info(g_app.getName() .. ' ' .. g_app.getVersion() .. ' rev ' .. g_app.getBuildRevision() .. ' (' ..
-    g_app.getBuildCommit() .. ') built on ' .. g_app.getBuildDate() .. ' for arch ' ..
-    g_app.getBuildArch())
+g_logger.info(os.date("== application started at %b %d %Y %X"))
+g_logger.info(g_app.getName() .. ' ' .. g_app.getVersion() .. ' rev ' .. g_app.getBuildRevision() .. ' (' .. g_app.getBuildCommit() .. ') made by ' .. g_app.getAuthor() .. ' built on ' .. g_app.getBuildDate() .. ' for arch ' .. g_app.getBuildArch())
 
--- setup lua debugger
-if os.getenv("LOCAL_LUA_DEBUGGER_VSCODE") == "1" then
-    require("lldebugger").start()
-    g_logger.debug("Started LUA debugger.")
-else
-    g_logger.debug("LUA debugger not started (not launched with VSCode local-lua).")
+if not g_resources.directoryExists("/data") then
+  g_logger.fatal("Data dir doesn't exist.")
 end
 
--- add data directory to the search path
-if not g_resources.addSearchPath(g_resources.getWorkDir() .. 'data', true) then
-    g_logger.fatal('Unable to add data directory to the search path.')
+if not g_resources.directoryExists("/modules") then
+  g_logger.fatal("Modules dir doesn't exist.")
 end
 
--- add modules directory to the search path
-if not g_resources.addSearchPath(g_resources.getWorkDir() .. 'modules', true) then
-    g_logger.fatal('Unable to add modules directory to the search path.')
+-- settings
+g_configs.loadSettings("/config.otml")
+
+-- set layout
+local settings = g_configs.getSettings()
+local layout = DEFAULT_LAYOUT
+if g_app.isMobile() then
+  layout = "mobile"
+elseif settings:exists('layout') then
+  layout = settings:getValue('layout')
 end
+g_resources.setLayout(layout)
 
-g_html.addGlobalStyle('/data/styles/html.css')
-g_html.addGlobalStyle('/data/styles/custom.css')
-
--- try to add mods path too
-g_resources.addSearchPath(g_resources.getWorkDir() .. 'mods', true)
-
--- setup directory for saving configurations
-g_resources.setupUserWriteDir(('%s/'):format(g_app.getCompactName()))
-
--- search all packages
-g_resources.searchAndAddPackages('/', '.otpkg', true)
-
--- load settings
-g_configs.loadSettings('/config.otml')
-
+-- load mods
 g_modules.discoverModules()
-
--- libraries modules 0-99
-g_modules.autoLoadModules(99)
-g_modules.ensureModuleLoaded('corelib')
-g_modules.ensureModuleLoaded('gamelib')
-g_modules.ensureModuleLoaded('modulelib')
-g_modules.ensureModuleLoaded("startup")
-
-g_modules.autoLoadModules(999)
-g_modules.ensureModuleLoaded('game_shaders') -- pre load
-
+g_modules.ensureModuleLoaded("corelib")
+  
 local function loadModules()
-    -- client modules 100-499
-    g_modules.autoLoadModules(499)
-    g_modules.ensureModuleLoaded('client')
+  -- libraries modules 0-99
+  g_modules.autoLoadModules(99)
+  g_modules.ensureModuleLoaded("gamelib")
 
-    -- game modules 500-999
-    g_modules.autoLoadModules(999)
-    g_modules.ensureModuleLoaded('game_interface')
+  -- client modules 100-499
+  g_modules.autoLoadModules(499)
+  g_modules.ensureModuleLoaded("client")
 
-    -- mods 1000-9999
-    g_modules.autoLoadModules(9999)
-    g_modules.ensureModuleLoaded('client_mods')
+  -- game modules 500-999
+  g_modules.autoLoadModules(999)
+  g_modules.ensureModuleLoaded("game_interface")
 
-    local script = '/' .. g_app.getCompactName() .. 'rc.lua'
+  -- mods 1000-9999
+  g_modules.autoLoadModules(9999)
+end
 
-    if g_resources.fileExists(script) then
-        dofile(script)
-    end
-
-    -- uncomment the line below so that modules are reloaded when modified. (Note: Use only mod dev)
-    -- g_modules.enableAutoReload()
+-- report crash
+if type(Services.crash) == 'string' and Services.crash:len() > 4 and g_modules.getModule("crash_reporter") then
+  g_modules.ensureModuleLoaded("crash_reporter")
 end
 
 -- run updater, must use data.zip
-if g_app.hasUpdater() then
-    g_modules.ensureModuleLoaded("updater")
-    return Updater.init(loadModules)
+if type(Services.updater) == 'string' and Services.updater:len() > 4 
+  and g_resources.isLoadedFromArchive() and g_modules.getModule("updater") then
+  g_modules.ensureModuleLoaded("updater")
+  return Updater.init(loadModules)
 end
-
 loadModules()

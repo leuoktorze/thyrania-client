@@ -5,38 +5,32 @@ bugReportWindow = nil
 bugTextEdit = nil
 
 function init()
-    g_ui.importStyle('bugreport')
+  g_ui.importStyle('bugreport')
 
-    bugReportWindow = g_ui.createWidget('BugReportWindow', rootWidget)
-    bugReportWindow:hide()
+  bugReportWindow = g_ui.createWidget('BugReportWindow', rootWidget)
+  bugReportWindow:hide()
 
-    bugTextEdit = bugReportWindow:getChildById('bugTextEdit')
+  bugTextEdit = bugReportWindow:getChildById('bugTextEdit')
 
-    Keybind.new("Dialogs", "Open Bugreport", HOTKEY, "")
-    Keybind.bind("Dialogs", "Open Bugreport", {
-      {
-        type = KEY_DOWN,
-        callback = show,
-      }
-    }, modules.game_interface.getRootPanel())
+  g_keyboard.bindKeyDown(HOTKEY, show, modules.game_interface.getRootPanel())
 end
 
 function terminate()
-    Keybind.delete("Dialogs", "Open Bugreport")
-    bugReportWindow:destroy()
+  g_keyboard.unbindKeyDown(HOTKEY, modules.game_interface.getRootPanel())
+  bugReportWindow:destroy()
 end
 
 function doReport()
-    g_game.reportBug(bugTextEdit:getText())
-    bugReportWindow:hide()
-    modules.game_textmessage.displayGameMessage(tr('Bug report sent.'))
+  g_game.reportBug(bugTextEdit:getText())
+  bugReportWindow:hide()
+  modules.game_textmessage.displayGameMessage(tr('Bug report sent.'))
 end
 
 function show()
-    if g_game.isOnline() then
-        bugTextEdit:setText('')
-        bugReportWindow:show()
-        bugReportWindow:raise()
-        bugReportWindow:focus()
-    end
+  if g_game.isOnline() then
+    bugTextEdit:setText('')
+    bugReportWindow:show()
+    bugReportWindow:raise()
+    bugReportWindow:focus()
+  end
 end

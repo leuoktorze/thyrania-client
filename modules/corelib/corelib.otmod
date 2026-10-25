@@ -11,14 +11,12 @@ Module
     dofile 'table'
     dofile 'bitwise'
     dofile 'struct'
-    dofile 'base64'
 
     dofile 'const'
     dofile 'util'
     dofile 'globals'
     dofile 'config'
     dofile 'settings'
-    dofile 'keybind'
     dofile 'keyboard'
     dofile 'mouse'
     dofile 'net'
@@ -28,12 +26,9 @@ Module
 
     dofile 'inputmessage'
     dofile 'outputmessage'
-
+    dofile 'orderedtable'
+    
+    dofile 'base64'
     dofile 'json'
     dofile 'http'
-    dofile 'objectpool'
-
-    Keybind.init()
-    initPlatformKeyDescs()
-
-  @onUnload: Keybind.terminate()
+    dofile 'test'

@@ -1,14 +1,11 @@
-Panel
+UIWidget
   id: background
-  image-source: /images/background
-  image-smooth: false
-  image-fixed-ratio: true
-  anchors.top: parent.top
-  anchors.left: parent.left
-  anchors.right: parent.right
-  anchors.bottom: parent.bottom
-  margin-top: 1
+  anchors.fill: parent
   focusable: false
+  image-source: /images/background
+  image-smooth: true
+  image-fixed-ratio: true
+  margin-top: 1
 
   UILabel
     id: clientVersionLabel
@@ -16,14 +13,9 @@ Panel
     anchors.right: parent.right
     anchors.bottom: parent.bottom
     text-align: center
-    text-auto-resize: true
-    width: 120
+    text-auto-resize: false
+    width: 220
+    height: 90
     padding: 2
     color: #ffffff
-    font: verdana-11px-monochrome
-
-  UIParticles
-    id: particles
-    effect: background-effect
-    anchors.fill: parent
-    phantom: true
+    font: terminus-14px-bold

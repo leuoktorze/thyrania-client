@@ -2,7 +2,7 @@ ProgressBar < UIProgressBar
   height: 16
   background-color: red
   image-source: /images/ui/progressbar
-  image-border: 2
+  image-border: 1
   font: verdana-11px-rounded
   text-offset: 0 2
 
@@ -22,7 +22,7 @@ LifeProgressBar < UIProgressBar
   font: verdana-11px-rounded
   text-offset: 0 2
   margin: 2
-
+  
 ProgressRect < UIProgressRect
   anchors.fill: parent
   phantom: true
@@ -31,30 +31,7 @@ ProgressRect < UIProgressRect
   font: verdana-11px-rounded
 
 HealthBar < ProgressBar
-  image-source: /images/ui/progressbarhpmana
-  image-border: 3
-  
+  background-color: #ff4444
+
 ManaBar < ProgressBar
-  image-source: /images/ui/progressbarhpmana
-  image-border: 4
   background-color: #4444ff
-
-ProgressBarSD < UIProgressBarSD
-  height: 22
-  tooltip-delayed: true
-
-HealthBarSD < ProgressBarSD
-
-ProgressBarSDInv < UIProgressBarSDInverted
-
-InvManaBar < UIProgressBarSDInverted
-  size: 10 30
-  image-border: 1
-  
-InvVerticalBar < UIVerticalProgressBarSDInverted 
-  size: 10 30
-  image-border: 1
-
-VerticalBar < UIVerticalProgressBarSD 
-  size: 10 30
-  image-border: 1

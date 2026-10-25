@@ -1,118 +1,125 @@
-local musicFilename = 'sounds/startup'
+local musicFilename = "/sounds/startup"
 local musicChannel = nil
-if g_sounds then
-    musicChannel = g_sounds.getChannel(SoundChannels.Music)
-end
-
-local function onGameStart()
-    if not musicChannel then
-        return
-    end
-
-    musicChannel:stop(3)
-end
-
-local function onGameEnd()
-    if not musicChannel then
-        return
-    end
-
-    g_sounds.stopAll()
-    if modules.client_options and modules.client_options.getOption('soundAnthem') then
-        musicChannel:enqueue(musicFilename, 3)
-    end
-end
 
 function setMusic(filename)
-    musicFilename = filename
+  musicFilename = filename
 
-    if not g_game.isOnline() then
-        musicChannel:stop()
-        if modules.client_options and modules.client_options.getOption('soundAnthem') then
-            musicChannel:enqueue(musicFilename, 3)
-        end
-    end
+  if not g_game.isOnline() and musicChannel ~= nil then
+    musicChannel:stop()
+    musicChannel:enqueue(musicFilename, 3)
+  end
 end
 
-function reloadMusic()
-    if not musicChannel then
-        return
-    end
+function reloadScripts()
+  if g_game.getFeature(GameNoDebug) then
+    return
+  end
+  
+  g_textures.clearCache()
+  g_modules.reloadModules()
 
-    if not g_game.isOnline() then
-        musicChannel:stop()
-        if modules.client_options and modules.client_options.getOption('soundAnthem') then
-            musicChannel:enqueue(musicFilename, 3)
-        end
-    end
+  local script = '/' .. g_app.getCompactName() .. 'rc.lua'
+  if g_resources.fileExists(script) then
+    dofile(script)
+  end
+
+  local message = tr('All modules and scripts were reloaded.')
+
+  modules.game_textmessage.displayGameMessage(message)
+  print(message)
 end
 
 function startup()
-    if musicChannel then
-        if modules.client_options and modules.client_options.getOption('soundAnthem') then
-            musicChannel:enqueue(musicFilename, 3)
-        end
-    end
-
-    -- Check for startup errors
-    local errtitle = nil
-    local errmsg = nil
-
-    if g_graphics.getRenderer():lower():match('gdi generic') then
-        errtitle = tr('Graphics card driver not detected')
-        errmsg = tr(
-            'No graphics card detected, everything will be drawn using the CPU,\nthus the performance will be really bad.\nPlease update your graphics driver to have a better performance.')
-    end
-
-    -- Show entergame
-    if errmsg or errtitle then
-        local msgbox = displayErrorBox(errtitle, errmsg)
-        msgbox.onOk = function()
-            EnterGame.firstShow()
-        end
-    else
-        EnterGame.firstShow()
-    end
-    if g_app.hasUpdater() and g_sounds then
-        g_sounds.setAudioEnabled(g_settings.getBoolean('enableAudio', true))
-    end
+  if g_sounds ~= nil then
+    musicChannel = g_sounds.getChannel(1)
+  end
+  
+  G.UUID = g_settings.getString('report-uuid')
+  if not G.UUID or #G.UUID ~= 36 then
+    G.UUID = g_crypt.genUUID()
+    g_settings.set('report-uuid', G.UUID)
+  end
+  
+  -- Play startup music (The Silver Tree, by Mattias Westlund)
+  --musicChannel:enqueue(musicFilename, 3)
+  connect(g_game, { onGameStart = function() if musicChannel ~= nil then musicChannel:stop(3) end end })
+  connect(g_game, { onGameEnd = function()
+      if g_sounds ~= nil then
+        g_sounds.stopAll()
+        --musicChannel:enqueue(musicFilename, 3)
+      end
+  end })
 end
 
 function init()
-    if g_app.hasUpdater() then
-        connect(g_app, {
-            onUpdateFinished = startup,
-        })
+  connect(g_app, { onRun = startup,
+                   onExit = exit })
+  connect(g_game, { onGameStart = onGameStart,
+                    onGameEnd = onGameEnd })
+
+  if g_sounds ~= nil then
+    --g_sounds.preload(musicFilename)
+  end
+
+  if not Updater then
+    if g_resources.getLayout() == "mobile" then
+      g_window.setMinimumSize({ width = 640, height = 360 })
     else
-        connect(g_app, {
-            onRun = startup,
-        })
+      g_window.setMinimumSize({ width = 800, height = 640 })  
     end
 
-    if musicChannel then
-        g_sounds.preload(musicFilename)
-        connect(g_game, {
-            onGameStart = onGameStart,
-            onGameEnd = onGameEnd
-        })
-    end
+    -- window size
+    local size = { width = 1024, height = 600 }
+    size = g_settings.getSize('window-size', size)
+    g_window.resize(size)
+
+    -- window position, default is the screen center
+    local displaySize = g_window.getDisplaySize()
+    local defaultPos = { x = (displaySize.width - size.width)/2,
+                         y = (displaySize.height - size.height)/2 }
+    local pos = g_settings.getPoint('window-pos', defaultPos)
+    pos.x = math.max(pos.x, 0)
+    pos.y = math.max(pos.y, 0)
+    g_window.move(pos)
+
+    -- window maximized?
+    local maximized = g_settings.getBoolean('window-maximized', false)
+    if maximized then g_window.maximize() end
+  end
+
+  g_window.setTitle(g_app.getName())
+  g_window.setIcon('/images/clienticon')
+
+  g_keyboard.bindKeyDown('Ctrl+Shift+R', reloadScripts)
+
+  -- generate machine uuid, this is a security measure for storing passwords
+  if not g_crypt.setMachineUUID(g_settings.get('uuid')) then
+    g_settings.set('uuid', g_crypt.getMachineUUID())
+    g_settings.save()
+  end
 end
 
 function terminate()
-    if g_app.hasUpdater() then
-        disconnect(g_app, {
-            onUpdateFinished = startup,
-        })
-    else
-        disconnect(g_app, {
-            onRun = startup,
-        })
-    end
+  disconnect(g_app, { onRun = startup,
+                      onExit = exit })
+  disconnect(g_game, { onGameStart = onGameStart,
+                       onGameEnd = onGameEnd })
+  -- save window configs
+  g_settings.set('window-size', g_window.getUnmaximizedSize())
+  g_settings.set('window-pos', g_window.getUnmaximizedPos())
+  g_settings.set('window-maximized', g_window.isMaximized())
+end
 
-    if musicChannel then
-        disconnect(g_game, {
-            onGameStart = onGameStart,
-            onGameEnd = onGameEnd
-        })
-    end
+function exit()
+  g_logger.info("Exiting application..")
+end
+
+function onGameStart()
+  local player = g_game.getLocalPlayer()
+  if not player then return end
+  g_window.setTitle(g_app.getName() .. " - " .. player:getName())  
+end
+
+function onGameEnd()
+  g_window.setTitle(g_app.getName())
 end

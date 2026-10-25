@@ -1,11 +1,10 @@
 HTTP = {
-  timeout = 2,
-  websocketTimeout = 15,
-  agent = "Mozilla/5.0",
-  imageId = 1000,
-  images = {},
-  operations = {},
-  enableTimeOut = false, -- only work in read/write
+  timeout=5,
+  websocketTimeout=15,
+  agent="Mozilla/5.0",
+  imageId=1000,
+  images={},
+  operations={},
 }
 
 function HTTP.get(url, callback)
@@ -13,7 +12,7 @@ function HTTP.get(url, callback)
     return error("HTTP.get is not supported")
   end
   local operation = g_http.get(url, HTTP.timeout)
-  HTTP.operations[operation] = { type = "get", url = url, callback = callback }
+  HTTP.operations[operation] = {type="get", url=url, callback=callback}  
   return operation
 end
 
@@ -22,26 +21,19 @@ function HTTP.getJSON(url, callback)
     return error("HTTP.getJSON is not supported")
   end
   local operation = g_http.get(url, HTTP.timeout)
-  HTTP.operations[operation] = { type = "get", json = true, url = url, callback = callback }
+  HTTP.operations[operation] = {type="get", json=true, url=url, callback=callback}  
   return operation
 end
 
-function HTTP.post(url, data, callback, checkContentLength)
+function HTTP.post(url, data, callback)
   if not g_http or not g_http.post then
     return error("HTTP.post is not supported")
   end
-  local is_json = false
   if type(data) == "table" then
     data = json.encode(data)
-    is_json = true
   end
-
-  if checkContentLength == nil then
-    checkContentLength = true
-  end
-
-  local operation = g_http.post(url, data, HTTP.timeout, is_json, checkContentLength)
-  HTTP.operations[operation] = { type = "post", url = url, callback = callback }
+  local operation = g_http.post(url, data, HTTP.timeout)
+  HTTP.operations[operation] = {type="post", url=url, callback=callback}
   return operation
 end
 
@@ -53,7 +45,7 @@ function HTTP.postJSON(url, data, callback)
     data = json.encode(data)
   end
   local operation = g_http.post(url, data, HTTP.timeout, true)
-  HTTP.operations[operation] = { type = "post", json = true, url = url, callback = callback }
+  HTTP.operations[operation] = {type="post", json=true, url=url, callback=callback}
   return operation
 end
 
@@ -62,13 +54,7 @@ function HTTP.download(url, file, callback, progressCallback)
     return error("HTTP.download is not supported")
   end
   local operation = g_http.download(url, file, HTTP.timeout)
-  HTTP.operations[operation] = {
-    type = "download",
-    url = url,
-    file = file,
-    callback = callback,
-    progressCallback = progressCallback
-  }
+  HTTP.operations[operation] = {type="download", url=url, file=file, callback=callback, progressCallback=progressCallback}  
   return operation
 end
 
@@ -85,7 +71,7 @@ function HTTP.downloadImage(url, callback)
   local file = "autoimage_" .. HTTP.imageId .. ".png"
   HTTP.imageId = HTTP.imageId + 1
   local operation = g_http.download(url, file, HTTP.timeout)
-  HTTP.operations[operation] = { type = "image", url = url, file = file, callback = callback }
+  HTTP.operations[operation] = {type="image", url=url, file=file, callback=callback}  
   return operation
 end
 
@@ -97,11 +83,11 @@ function HTTP.webSocket(url, callbacks, timeout, jsonWebsocket)
     timeout = HTTP.websocketTimeout
   end
   local operation = g_http.ws(url, timeout)
-  HTTP.operations[operation] = { type = "ws", json = jsonWebsocket, url = url, callbacks = callbacks }
+  HTTP.operations[operation] = {type="ws", json=jsonWebsocket, url=url, callbacks=callbacks}  
   return {
     id = operation,
     url = url,
-    close = function()
+    close = function() 
       g_http.wsClose(operation)
     end,
     send = function(message)
@@ -112,13 +98,11 @@ function HTTP.webSocket(url, callbacks, timeout, jsonWebsocket)
     end
   }
 end
-
 HTTP.WebSocket = HTTP.webSocket
 
 function HTTP.webSocketJSON(url, callbacks, timeout)
   return HTTP.webSocket(url, callbacks, timeout, true)
 end
-
 HTTP.WebSocketJSON = HTTP.webSocketJSON
 
 function HTTP.cancel(operationId)
@@ -147,7 +131,7 @@ function HTTP.onGet(operationId, url, err, data)
       if data and data:len() > 0 then
         err = err .. " (" .. data:sub(1, 100) .. ")"
       end
-    end
+    end  
     data = result
   end
   if operation.callback then
@@ -160,6 +144,7 @@ function HTTP.onGetProgress(operationId, url, progress)
   if operation == nil then
     return
   end
+  
 end
 
 function HTTP.onPost(operationId, url, err, data)
@@ -174,13 +159,13 @@ function HTTP.onPost(operationId, url, err, data)
     if data:len() == 0 then
       data = "null"
     end
-    local status, result = pcall(json.decode, data)
+    local status, result = pcall(function() return json.decode(data) end)
     if not status then
       err = "JSON ERROR: " .. result
       if data and data:len() > 0 then
         err = err .. " (" .. data:sub(1, 100) .. ")"
       end
-    end
+    end  
     data = result
   end
   if operation.callback then
@@ -208,7 +193,7 @@ function HTTP.onDownload(operationId, url, err, path, checksum)
       if not err then
         HTTP.images[url] = path
       end
-      operation.callback('/downloads/' .. path, err)
+      operation.callback('/downloads/' .. path, err)    
     else
       operation.callback(path, checksum, err)
     end
@@ -256,9 +241,9 @@ function HTTP.onWsMessage(operationId, message)
       if err then
         if operation.callbacks.onError then
           operation.callbacks.onError(err, operationId)
-        end
+        end        
       else
-        operation.callbacks.onMessage(result, operationId)
+        operation.callbacks.onMessage(result, operationId)    
       end
     else
       operation.callbacks.onMessage(message, operationId)
@@ -286,13 +271,7 @@ function HTTP.onWsError(operationId, message)
   end
 end
 
-function HTTP.addCustomHeader(headerTable)
-  for name, value in pairs(headerTable) do
-    g_http.addCustomHeader(name, value)
-  end
-end
-
-connect(g_http,
+connect(g_http, 
   {
     onGet = HTTP.onGet,
     onGetProgress = HTTP.onGetProgress,
@@ -305,6 +284,4 @@ connect(g_http,
     onWsClose = HTTP.onWsClose,
     onWsError = HTTP.onWsError,
   })
-
 g_http.setUserAgent(HTTP.agent)
-g_http.setEnableTimeOutOnReadWrite(HTTP.enableTimeOut)
