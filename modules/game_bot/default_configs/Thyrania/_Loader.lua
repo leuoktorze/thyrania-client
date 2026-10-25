@@ -1,7 +1,7 @@
 -- Auxiliador do Thyrania (baseado no vBot 4.8).
 -- Liberado: cura (HealBot), ataque/rotação de magias (AttackBot), condições (haste, utamo...),
 -- comida, troca de gold, equipar rings/amulets e ferramentas.
--- Fora: Cavebot e Targetbot (andar/caçar sozinho), editor de scripts e servidor de bot.
+-- Alvo (Targetbot): ataca e looteia sozinho. Fora: Cavebot (andar sozinho), editor de scripts e servidor de bot.
 local configName = modules.game_bot.contentsPanel.config:getCurrentOption().text
 
 local configFiles = g_resources.listDirectoryFiles("/bot/" .. configName .. "/vBot", true, false)
@@ -24,6 +24,7 @@ local luaFiles = {
   "thyrania_stubs",
   "configs", -- não mudar a ordem acima
   "extras",
+  "thyrania_targetbot", -- TargetBot sem Cavebot
   "playerlist",
   "alarms",
   "Conditions",
