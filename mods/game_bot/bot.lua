@@ -177,12 +177,11 @@ function loadConfigsList()
     if not g_resources.directoryExists("/bot") then return end
   end
   createDefaultConfigs()
-  local configs = g_resources.listDirectoryFiles("/bot", false, false)
   configList.onOptionChange = nil
   configList:clearOptions()
-  for i=1,#configs do
-    configList:addOption(configs[i])
-  end
+  configList:addOption(THYRANIA_CONFIG)
+  configList:hide() -- sem troca de config
+  if contentsPanel.editConfig then contentsPanel.editConfig:hide() end -- sem editor/upload de configs
   local settings = g_settings.getNode('bot') or {}
   if g_game.isOnline() then
     local index = g_game.getCharacterName() .. "_" .. g_game.getClientVersion()
@@ -389,18 +388,19 @@ local function copyFilesRecursively(sourcePath, targetPath)
     end
 end
 
+-- Thyrania: só existe a config "Thyrania" (o Auxiliador). Os arquivos de código dela são copiados
+-- de novo toda vez (edições locais são desfeitas); as preferências do jogador (vBot_configs) ficam.
+THYRANIA_CONFIG = "Thyrania"
+
 function createDefaultConfigs()
-    local defaultConfigFiles = g_resources.listDirectoryFiles("default_configs", false, false)
-    for _, configName in ipairs(defaultConfigFiles) do
-        local targetDir = "/bot/" .. configName
+    local targetDir = "/bot/" .. THYRANIA_CONFIG
+    if not g_resources.directoryExists(targetDir) then
+        g_resources.makeDir(targetDir)
         if not g_resources.directoryExists(targetDir) then
-            g_resources.makeDir(targetDir)
-            if not g_resources.directoryExists(targetDir) then
-                return onError("Can't create directory: " .. targetDir)
-            end
-            copyFilesRecursively("default_configs/" .. configName, targetDir)
+            return onError("Can't create directory: " .. targetDir)
         end
     end
+    copyFilesRecursively("default_configs/" .. THYRANIA_CONFIG, targetDir)
 end
 
 function uploadConfig()
