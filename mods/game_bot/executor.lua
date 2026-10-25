@@ -5,7 +5,8 @@ function executeBot(config, storage, tabs, msgCallback, saveConfigCallback, relo
   local uiFiles = {}
   for i, file in ipairs(configFiles) do
     local ext = file:split(".")
-    if ext[#ext]:lower() == "lua" then
+    -- Thyrania: só o _Loader.lua da config roda (arquivos .lua extras na pasta são ignorados)
+    if ext[#ext]:lower() == "lua" and file:match("/_Loader%.lua$") then
       table.insert(luaFiles, file)
     end
     if ext[#ext]:lower() == "ui" or ext[#ext]:lower() == "otui" then
