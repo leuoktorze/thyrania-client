@@ -1,3 +1,7 @@
 *
 !/README.txt
 !.gitignore
+
+# Thyrania: a config do Auxiliador faz parte do cliente
+!/game_bot/
+!/game_bot/**

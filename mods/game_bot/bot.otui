@@ -44,7 +44,7 @@ BotTabBarButton < UIButton
 
 MiniWindow
   id: botWindow
-  !text: tr('Bot')
+  !text: tr('Auxiliador')
   height: 600
   @onClose: modules.game_bot.onMiniWindowClose()
   &save: true
@@ -71,7 +71,7 @@ MiniWindow
     font: verdana-11px-monochrome
     height: 13
     color: #9d9d9dff
-    !text: tr('Bot')
+    !text: tr('Auxiliador')
 
   MiniWindowContents
     ComboBox
@@ -93,7 +93,7 @@ MiniWindow
       anchors.top: prev.top
       anchors.left: prev.right
       anchors.right: parent.right
-      !text: tr('Edit')
+      !text: tr('Editar')
       @onClick: modules.game_bot.edit()
       margin-left: 3
       margin-right: 37
@@ -107,11 +107,11 @@ MiniWindow
       margin-right: 2
 
       $on:
-        text: On
+        text: Lig.
         color: #00AA00
 
       $!on:
-        text: Off
+        text: Desl.
         color: #FF0000
 
     Label
@@ -122,7 +122,7 @@ MiniWindow
       text-wrap: true
       text-auto-resize: true
       text-align: center
-      !text: tr('Status: waiting')
+      !text: tr('Status: aguardando')
       margin-left: 3
       margin-right: 3
 
