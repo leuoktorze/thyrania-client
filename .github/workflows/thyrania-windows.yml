@@ -1,0 +1,15 @@
+# Thyrania: compila só o cliente Windows (dispara à mão na aba Actions ou pelo Claude).
+name: Thyrania - Windows
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: read
+
+jobs:
+  build-windows:
+    name: Build - Windows
+    uses: ./.github/workflows/reusable-build-windows.yml
+    secrets: inherit
