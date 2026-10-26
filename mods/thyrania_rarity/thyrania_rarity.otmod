@@ -1,0 +1,10 @@
+Module
+  name: thyrania_rarity
+  description: Cores de raridade dos itens (servidor Thyrania)
+  author: Thyrania
+  scripts: [ rarity ]
+  autoload: true
+  autoload-priority: 1500
+  sandboxed: true
+  @onLoad: init()
+  @onUnload: terminate()
