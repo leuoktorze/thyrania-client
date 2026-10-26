@@ -32,6 +32,7 @@ local luaFiles = {
   "combo",
   "HealBot",
   "new_healer",
+  "mana_trainer", -- treino de magic level
   "AttackBot",
   "Dropper",
   "Containers",
