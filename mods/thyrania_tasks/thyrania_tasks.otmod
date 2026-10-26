@@ -1,0 +1,10 @@
+Module
+  name: thyrania_tasks
+  description: Contador das tasks de caca na tela (servidor Thyrania)
+  author: Thyrania
+  scripts: [ tasks ]
+  autoload: true
+  autoload-priority: 1502
+  sandboxed: true
+  @onLoad: init()
+  @onUnload: terminate()
