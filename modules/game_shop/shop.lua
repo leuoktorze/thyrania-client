@@ -280,7 +280,7 @@ end
 
 function onCoinBalance(coins, transferableCoins)
   if not shop or otcv8shop then return end
-  shop.infoPanel.points:setText(tr("Points:") .. " " .. coins)
+  shop.infoPanel.points:setText("LULES: " .. coins)
   transferWindow.coinsBalance:setText(tr('Transferable Tibia Coins: ') .. coins)
   transferWindow.coinsAmount:setMaximum(coins)
   shop.infoPanel.buy:hide()
@@ -293,7 +293,12 @@ function transferCoins()
   amount = transferWindow.coinsAmount:getValue()
   local recipient = transferWindow.recipient:getText()
 
-  g_game.transferCoins(recipient, amount)
+  if otcv8shop then
+    sendAction("transfer", {name = recipient, amount = amount})
+    softHide()
+  else
+    g_game.transferCoins(recipient, amount)
+  end
   transferWindow.recipient:setText('')
   transferWindow.coinsAmount:setValue(0)
 end
@@ -401,7 +406,11 @@ function processStatus(data)
     processAd(data['ad'])
   end
   if data['points'] then
-    shop.infoPanel.points:setText(tr("Points:") .. " " .. data['points'])
+    shop.infoPanel.points:setText("LULES: " .. data['points'])
+    if transferWindow then
+      transferWindow.coinsBalance:setText("Seu saldo: " .. data['points'] .. " LULES")
+      transferWindow.coinsAmount:setMaximum(math.max(0, tonumber(data['points']) or 0))
+    end
   end
   if data['buyUrl'] and data['buyUrl']:sub(1, 4):lower() == "http" then
     shop.infoPanel.buy:show()
@@ -524,7 +533,7 @@ function addOffer(category, data)
     return
   end
   offer:setId("offer_" .. category .. "_" .. shop.offers:getChildCount())
-  offer.title:setText(data["title"] .. " (" .. data["cost"] .. " points)")
+  offer.title:setText(data["title"] .. " (" .. data["cost"] .. " LULES)")
   offer.description:setText(data["description"])  
   offer.offerId = data["id"]
   if category ~= 0 then
@@ -579,11 +588,11 @@ function buyOffer(widget)
         msgWindow:destroy()
       end
       
-      local title = tr("Buying from shop")
-      local msg = "Do you want to buy " ..  item.title .. " for " .. item.cost .. " premium points?"
+      local title = "Comprar na loja"
+      local msg = "Comprar " ..  item.title .. " por " .. item.cost .. " LULES?"
       msgWindow = displayGeneralBox(title, msg, {
-          { text=tr('Yes'), callback=buyConfirmed },
-          { text=tr('No'), callback=buyCanceled },
+          { text='Sim', callback=buyConfirmed },
+          { text='Nao', callback=buyCanceled },
           anchor=AnchorHorizontalCenter}, buyConfirmed, buyCanceled)
       msgWindow:show()
       msgWindow:raise()
