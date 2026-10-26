@@ -43,7 +43,13 @@ local function onCharacterList(protocol, characters, account, otui)
     EnterGame.clearAccountFields()
   end
 
+  -- Thyrania: o jogo fica na mesma maquina do login, entao entra no jogo pelo mesmo endereco usado
+  -- no login (assim 127.0.0.1 funciona para quem hospeda e o IP publico funciona para os amigos)
+  local loginHost = G.host and G.host:split(":")[1]
   for _, characterInfo in pairs(characters) do
+    if loginHost and loginHost:len() > 0 and not loginHost:lower():find("http") then
+      characterInfo.worldIp = loginHost
+    end
     if characterInfo.previewState and characterInfo.previewState ~= PreviewState.Default then
       characterInfo.worldName = characterInfo.worldName .. ', Preview'
     end
