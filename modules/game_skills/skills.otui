@@ -112,6 +112,13 @@ MiniWindow
       SkillPercentPanel
 
     SkillButton
+      id: thyraniaExpBonus
+      height: 15
+      SkillNameLabel
+        !text: tr('Bonus de Exp')
+      SkillValueLabel
+
+    SkillButton
       id: offlineTraining
       SkillNameLabel
         !text: tr('Offline Training')

@@ -1,0 +1,10 @@
+Module
+  name: thyrania_exp
+  description: Mostra os bonus de exp ativos na janela Skills e na tela (servidor Thyrania)
+  author: Thyrania
+  scripts: [ exp ]
+  autoload: true
+  autoload-priority: 1503
+  sandboxed: true
+  @onLoad: init()
+  @onUnload: terminate()
