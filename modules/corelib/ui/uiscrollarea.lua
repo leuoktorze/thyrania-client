@@ -35,11 +35,36 @@ function UIScrollArea:onStyleApply(styleName, styleNode)
 end
 
 function UIScrollArea:updateScrollBars()
+    -- Thyrania: proteção contra o laço infinito layout -> barra de rolagem -> layout (congelava o cliente
+    -- quando uma aba do Auxiliador ficava comprida). Se for chamada sem parar, dá um tempo.
+    local now = g_clock.millis()
+    if self._thyWindowStart == nil or now - self._thyWindowStart > 200 then
+        self._thyWindowStart = now
+        self._thyCalls = 0
+    end
+    self._thyCalls = self._thyCalls + 1
+    if self._thyCalls > 40 then
+        if not self._thyRetry then
+            self._thyRetry = true
+            pcall(function()
+                local ids, w = {}, self
+                while w and #ids < 8 do ids[#ids + 1] = w:getId(); w = w:getParent() end
+                g_resources.writeFileContents("/thyrania_scroll.txt", os.date("%H:%M:%S") .. " laço de rolagem interrompido em: " .. table.concat(ids, " < ") ..
+                    "\naltura do conteúdo: " .. tostring(self:getChildrenRect().height) .. " area: " .. tostring(self:getPaddingRect().height) .. "\n")
+            end)
+            scheduleEvent(function()
+                self._thyRetry = nil
+                self._thyWindowStart = nil
+                if not self:isDestroyed() then self:updateScrollBars() end
+            end, 300)
+        end
+        return
+    end
     local scrollWidth = math.max(self:getChildrenRect().width - self:getPaddingRect().width, 0)
     local scrollHeight = math.max(self:getChildrenRect().height - self:getPaddingRect().height, 0)
 
     local scrollbar = self.verticalScrollBar
-    if scrollbar then
+    if scrollbar and self.lastScrollHeight ~= scrollHeight then
         if self.inverted then
             scrollbar:setMinimum(-scrollHeight)
             scrollbar:setMaximum(0)
@@ -50,7 +75,7 @@ function UIScrollArea:updateScrollBars()
     end
 
     local scrollbar = self.horizontalScrollBar
-    if scrollbar then
+    if scrollbar and self.lastScrollWidth ~= scrollWidth then
         if self.inverted then
             scrollbar:setMinimum(-scrollWidth)
             scrollbar:setMaximum(0)
@@ -73,6 +98,7 @@ end
 
 function UIScrollArea:setVerticalScrollBar(scrollbar)
     self.verticalScrollBar = scrollbar
+    self.lastScrollHeight = nil
     connect(self.verticalScrollBar, 'onValueChange', function(scrollbar, value)
         local virtualOffset = self:getVirtualOffset()
         virtualOffset.y = value
@@ -84,6 +110,7 @@ end
 
 function UIScrollArea:setHorizontalScrollBar(scrollbar)
     self.horizontalScrollBar = scrollbar
+    self.lastScrollWidth = nil
     connect(self.horizontalScrollBar, 'onValueChange', function(scrollbar, value)
         local virtualOffset = self:getVirtualOffset()
         virtualOffset.x = value
