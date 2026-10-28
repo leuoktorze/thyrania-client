@@ -24,6 +24,8 @@
 #include "uiwidget.h"
 
 #include <framework/core/eventdispatcher.h>
+#include <framework/core/clock.h>
+#include <framework/core/logger.h>
 
 void UILayout::update()
 {
@@ -64,6 +66,31 @@ void UILayout::updateLater()
         return;
 
     auto self = static_self_cast<UILayout>();
+
+    // Thyrania: um layout que se reagenda sem parar (ex.: aba comprida do Auxiliador com barra de
+    // rolagem) prendia o cliente para sempre dentro do mesmo ciclo de eventos. Se passar de 200
+    // reagendamentos em 100 ms, o próximo vai para daqui a 30 ms: o cliente continua respondendo.
+    const ticks_t now = g_clock.millis();
+    if (now - m_loopWindowStart > 100) {
+        m_loopWindowStart = now;
+        m_loopCount = 0;
+    }
+    if (++m_loopCount > 200) {
+        if (!m_loopLogged) {
+            m_loopLogged = true;
+            std::string path;
+            for (auto w = getParentWidget(); w && path.size() < 300; w = w->getParent())
+                path += w->getId() + " < ";
+            g_logger.warning("[Thyrania] laco de layout interrompido em: {}", path);
+        }
+        g_dispatcher.scheduleEvent([self] {
+            self->m_updateScheduled = false;
+            self->update();
+        }, 30);
+        m_updateScheduled = true;
+        return;
+    }
+
     g_dispatcher.deferEvent([self] {
         self->m_updateScheduled = false;
         self->update();

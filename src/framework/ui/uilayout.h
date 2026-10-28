@@ -58,5 +58,9 @@ protected:
     uint8_t m_updateDisabled{ 0 };
     bool m_updating{ false };
     bool m_updateScheduled{ false };
+    // Thyrania: detecção de laço de layout (update que se reagenda sem parar)
+    ticks_t m_loopWindowStart{ 0 };
+    uint32_t m_loopCount{ 0 };
+    bool m_loopLogged{ false };
     UIWidgetPtr m_parentWidget;
 };
