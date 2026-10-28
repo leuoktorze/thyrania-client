@@ -36,6 +36,7 @@ function executeBot(config, storage, tabs, msgCallback, saveConfigCallback, relo
   context._websockets = websockets
   context._macros = {}
   context._thyDebug = debug
+  context.thyTrace = thyTrace
   context._hotkeys = {}
   context._scheduler = {}
   context._callbacks = {

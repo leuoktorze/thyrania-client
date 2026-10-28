@@ -52,8 +52,21 @@ local luaFiles = {
   -- "supplies",
 }
 
-for i, file in ipairs(luaFiles) do
-  loadScript(file)
+-- Diagnóstico (teste 15.x): carrega um script a cada 3 segundos e anota no thyrania_trace.txt.
+-- Se o cliente congelar, o último "carregando" do arquivo é o culpado.
+local DIAG = true
+if DIAG then
+  for i, file in ipairs(luaFiles) do
+    schedule(i * 3000, function()
+      thyTrace("DIAG carregando " .. file)
+      loadScript(file)
+      thyTrace("DIAG ok " .. file)
+    end)
+  end
+else
+  for i, file in ipairs(luaFiles) do
+    loadScript(file)
+  end
 end
 
 setDefaultTab("Início")

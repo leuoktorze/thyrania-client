@@ -576,6 +576,10 @@ function check()
   end
 
   checkEvent = scheduleEvent(check, 10)
+  if g_clock.millis() - (thyAlive or 0) > 2000 then
+    thyAlive = g_clock.millis()
+    thyTrace("vivo")
+  end
 
   local status, result = pcall(function()
     return botExecutor.script()
