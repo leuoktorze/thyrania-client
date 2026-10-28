@@ -421,9 +421,23 @@ function thyGuard(name, fn, ...)
   if not res[1] then error(res[2], 0) end
   return unpack(res, 2)
 end
+-- batida do laço principal: se ela parar e o Lua continuar rodando, o vigia acima percebe
+thyTick = g_clock.millis()
+cycleEvent(function() thyTick = g_clock.millis() end, 250)
 pcall(function()
   if jit then jit.off() end -- o vigia só funciona com o JIT desligado (o LuaJIT não chama o hook no código compilado)
   debug.sethook(function()
+    -- vigia geral: o laço principal do cliente parou (check() não roda há 3s) mas o Lua continua
+    -- rodando -> grava onde está preso e interrompe
+    local nowMs = g_clock.millis()
+    if thyTick and botExecutor and nowMs - thyTick > 3000 and nowMs - (thyStuckLogged or 0) > 1000 then
+      thyStuckLogged = nowMs
+      thyTrace("CLIENTE PRESO (" .. (nowMs - thyTick) .. " ms sem voltar ao laço principal):\n" .. debug.traceback())
+      if nowMs - thyTick > 6000 then
+        thyTick = nowMs -- dá mais 3s antes de tentar de novo
+        error("Thyrania: cliente preso, interrompendo", 0)
+      end
+    end
     if thyCurrent and g_clock.millis() - thyCurrentStart > 2000 then
       local name = thyCurrent
       thyCurrent = nil
