@@ -104,13 +104,19 @@ function executeBot(config, storage, tabs, msgCallback, saveConfigCallback, relo
       return func
     end
     context.dofile = function(file) 
+      if thyTrace then thyTrace("  carregando " .. file) end
       local func = assert(loadstring(g_resources.readFileContents("/bot/" .. config .. "/" .. file)))
       setfenv(func, context)
       func()
+      if thyTrace then thyTrace("  ok " .. file) end
     end
   else
     context.load = function(str) return assert(load(str, nil, nil, context)) end
-    context.dofile = function(file) assert(load(g_resources.readFileContents("/bot/" .. config .. "/" .. file), file, nil, context))() end
+    context.dofile = function(file)
+      if thyTrace then thyTrace("  carregando " .. file) end
+      assert(load(g_resources.readFileContents("/bot/" .. config .. "/" .. file), file, nil, context))()
+      if thyTrace then thyTrace("  ok " .. file) end
+    end
   end
   context.loadstring = context.load
   context.assert = assert
@@ -167,10 +173,13 @@ function executeBot(config, storage, tabs, msgCallback, saveConfigCallback, relo
 
   -- init functions
   G.botContext = context
+  if thyTrace then thyTrace("executor: functions") end
   dofiles("functions")
   context.Panels = {}
+  if thyTrace then thyTrace("executor: panels") end
   dofiles("panels")
   G.botContext = nil
+  if thyTrace then thyTrace("executor: estilos e scripts da config") end
 
   -- run ui scripts
   for i, file in ipairs(uiFiles) do
@@ -179,6 +188,7 @@ function executeBot(config, storage, tabs, msgCallback, saveConfigCallback, relo
 
   -- run lua script
   for i, file in ipairs(luaFiles) do
+    if thyTrace then thyTrace("executor: rodando " .. file) end
       if _VERSION == "Lua 5.1" and type(jit) ~= "table" then
         local func = assert(loadstring(g_resources.readFileContents(file)))
         setfenv(func, context)
@@ -196,11 +206,17 @@ function executeBot(config, storage, tabs, msgCallback, saveConfigCallback, relo
 
       for i, macro in ipairs(context._macros) do
         if macro.lastExecution + macro.timeout <= context.now and macro.enabled then
+          local first = not macro._thyTraced
+          if first and thyTrace then thyTrace("macro " .. i .. " (" .. tostring(macro.name) .. ") 1a vez: inicio") end
           local status, result = pcall(function()
             if macro.callback(macro) then
                 macro.lastExecution = context.now
             end
           end)
+          if first then
+            macro._thyTraced = true
+            if thyTrace then thyTrace("macro " .. i .. " (" .. tostring(macro.name) .. ") 1a vez: fim") end
+          end
           if not status then
             context.error("Macro: " .. macro.name .. " execution error: " .. result)
           end

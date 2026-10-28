@@ -206,10 +206,14 @@ end
 
 function refresh()
   if not g_game.isOnline() then return end
+  thyTrace("refresh: inicio")
   save()
+  thyTrace("refresh: save ok")
   clear()
+  thyTrace("refresh: clear ok")
 
   loadConfigsList()
+  thyTrace("refresh: configs ok")
   if not configList.options or #configList.options == 0 then
     statusLabel:setOn(true)
     statusLabel:setText("No configs found in " .. g_resources.getWriteDir() .. "bot/")
@@ -281,6 +285,7 @@ function refresh()
   end
 
   -- run script
+  thyTrace("refresh: executando a config " .. tostring(configName))
   local status, result = pcall(function()
     return executeBot(configName, botStorage, botTabs, message, save, refresh, botWebSockets) end
   )
@@ -288,10 +293,12 @@ function refresh()
     return onError(result)
   end
 
+  thyTrace("refresh: config carregada")
   updateBotTabsHeight()
   statusLabel:setOn(false)
   botExecutor = result
   check()
+  thyTrace("refresh: pronto (bot ligado)")
 end
 
 function save()
@@ -388,6 +395,15 @@ local function copyFilesRecursively(sourcePath, targetPath)
     end
 end
 
+-- Thyrania (diagnóstico do congelamento na 15.x): cada passo do liga/desliga vai para
+-- <pasta do usuário>/thyrania_trace.txt, gravado na hora (se o cliente travar, o arquivo mostra onde).
+thyTraceText = ""
+function thyTrace(msg)
+  thyTraceText = thyTraceText .. os.date("%H:%M:%S") .. string.format(" %.3f ", g_clock.millis() / 1000) .. msg .. "\n"
+  if thyTraceText:len() > 60000 then thyTraceText = thyTraceText:sub(-30000) end
+  pcall(function() g_resources.writeFileContents("/thyrania_trace.txt", thyTraceText) end)
+end
+
 -- Thyrania: só existe a config "Thyrania" (o Auxiliador). Os arquivos de código dela são copiados
 -- de novo toda vez (edições locais são desfeitas); as preferências do jogador (vBot_configs) ficam.
 THYRANIA_CONFIG = "Thyrania"
@@ -400,7 +416,9 @@ function createDefaultConfigs()
             return onError("Can't create directory: " .. targetDir)
         end
     end
+    thyTrace("copiando arquivos da config")
     copyFilesRecursively("default_configs/" .. THYRANIA_CONFIG, targetDir)
+    thyTrace("arquivos copiados")
 end
 
 function uploadConfig()
