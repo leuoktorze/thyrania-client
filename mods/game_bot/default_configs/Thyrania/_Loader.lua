@@ -1,5 +1,5 @@
 -- Auxiliador do Thyrania (baseado no vBot 4.8).
--- Liberado: cura (HealBot), ataque/rotaÃ§Ã£o de magias (AttackBot), condiÃ§Ãµes (haste, utamo...),
+-- Liberado: cura (HealBot), ataque/rotação de magias (AttackBot), condições (haste, utamo...),
 -- comida, troca de gold, equipar rings/amulets e ferramentas.
 -- Alvo (Targetbot): ataca e looteia sozinho. Fora: Cavebot (andar sozinho), editor de scripts e servidor de bot.
 local configName = modules.game_bot.contentsPanel.config:getCurrentOption().text
@@ -16,8 +16,10 @@ local function loadScript(name)
   return dofile("/vBot/" .. name .. ".lua")
 end
 
--- Auxiliador LEVE (teste da 15.x): sÃ³ o essencial. Os mÃ³dulos pesados do vBot (analyzer, supplies,
--- containers, playerlist, alarms...) ficam de fora atÃ© descobrirmos qual travava o cliente.
+-- Cada bloco fica em uma aba curta (Cura, Buffs, Comida, Mana...): no cliente 15.x uma aba comprida
+-- demais, com barra de rolagem, deixava o layout recalculando sem parar (travava ou engasgava).
+-- Auxiliador LEVE (teste da 15.x): só o essencial. Os módulos pesados do vBot (analyzer, supplies,
+-- containers, playerlist, alarms...) ficam de fora até descobrirmos qual travava o cliente.
 -- Para testar um deles, tire o "--" da frente do nome e reabra o cliente.
 local luaFiles = {
   "main",
@@ -25,16 +27,16 @@ local luaFiles = {
   "vlib",
   "new_cavebot_lib",
   "thyrania_stubs",
-  "configs", -- nÃ£o mudar a ordem acima
+  "configs", -- não mudar a ordem acima
   "extras",
   "thyrania_targetbot", -- Alvo: atacar e lootear sozinho (sem Cavebot)
   "Conditions",
   "Equipper",
   "HealBot",
   "new_healer",
-  -- "mana_trainer", -- (teste: fora, para ver se o travamento era ele ou o tamanho da aba Cura)
-  "eat_food",
+  "mana_trainer",
   "AttackBot",
+  "eat_food",
   "hold_target",
   -- "playerlist",
   -- "alarms",
@@ -52,9 +54,9 @@ local luaFiles = {
   -- "supplies",
 }
 
--- DiagnÃ³stico (teste 15.x): carrega um script a cada 3 segundos e anota no thyrania_trace.txt.
--- Se o cliente congelar, o Ãºltimo "carregando" do arquivo Ã© o culpado.
-local DIAG = true
+-- Diagnóstico (teste 15.x): carrega um script a cada 3 segundos e anota no thyrania_trace.txt.
+-- Se o cliente congelar, o último "carregando" do arquivo é o culpado.
+local DIAG = false
 if DIAG then
   for i, file in ipairs(luaFiles) do
     schedule(i * 3000, function()
@@ -69,4 +71,4 @@ else
   end
 end
 
-setDefaultTab("InÃ­cio")
+setDefaultTab("Início")

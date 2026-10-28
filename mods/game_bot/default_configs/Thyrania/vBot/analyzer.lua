@@ -3,7 +3,7 @@
   made by Vithrax
 
   Credits also to:
-  - MartÃ­n#2318
+  - Martín#2318
   - Lee#7725
 
   Thanks for ideas, graphics, functions, design tips!
@@ -428,7 +428,7 @@ local function createTrackedItems()
         end
         widget:setImageSource('/images/ui/item')
         widget:getParent():setId("blank")
-        name:setText("Escolha o item para comeÃ§ar.")
+        name:setText("Escolha o item para começar.")
         drops:setText("Drops: 0")
         return
       end
@@ -439,7 +439,7 @@ local function createTrackedItems()
 
       if trackedLoot[tostring(id)] then
         warn("vBot[Drop Tracker]: Item already added!")
-        name:setText("Escolha o item para comeÃ§ar.")
+        name:setText("Escolha o item para começar.")
         widget:setItemId(0)
         return
       end
@@ -484,7 +484,7 @@ UI.Button("Add item to track drops", function()
       end
       widget:setImageSource('/images/ui/item')
       widget:getParent():setId("blank")
-      name:setText("Escolha o item para comeÃ§ar.")
+      name:setText("Escolha o item para começar.")
       drops:setText("Drops: 0")
       return
     end
@@ -495,7 +495,7 @@ UI.Button("Add item to track drops", function()
 
     if trackedLoot[tostring(id)] then
       warn("vBot[Drop Tracker]: Item already added!")
-      name:setText("Escolha o item para comeÃ§ar.")
+      name:setText("Escolha o item para começar.")
       widget:setItemId(0)
       return
     end
@@ -598,7 +598,7 @@ local xpGraph = UI.createWidget("AnalyzerGraph", xpWindow.contentsPanel)
 --#############################################
 --#############################################
 
-setDefaultTab("InÃ­cio")
+setDefaultTab("Início")
 -- first, the variables
 
 local console = modules.game_console

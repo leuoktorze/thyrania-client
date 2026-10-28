@@ -359,7 +359,7 @@ HealBotSettingsPanel < Panel
       type: verticalBox
 
     Label
-      text: ConfiguraÃ§Ãµes extras
+      text: Configurações extras
       text-align: center
       font: verdana-11px-rounded
 
@@ -372,16 +372,16 @@ HealBotSettingsPanel < Panel
 
     SettingCheckBox
       id: Visible
-      text: Itens precisam estar visÃ­veis (recomendado)
+      text: Itens precisam estar visíveis (recomendado)
     SettingCheckBox
       id: Delay
-      text: NÃ£o usar itens enquanto interage
+      text: Não usar itens enquanto interage
     SettingCheckBox
       id: Interval
       text: Atraso extra ao lootear corpos
     SettingCheckBox
       id: Conditions
-      text: TambÃ©m checar condiÃ§Ãµes do Tibia oficial
+      text: Também checar condições do Tibia oficial
     SettingCheckBox
       id: MessageDelay
       text: Cooldown pela mensagem "Aaaah..."
@@ -479,7 +479,7 @@ HealWindow < MainWindow
 
   Button
     id: settingsButton
-    !text: tr('ConfiguraÃ§Ãµes')
+    !text: tr('Configurações')
     font: cipsoftFont
     anchors.left: parent.left
     anchors.bottom: parent.bottom

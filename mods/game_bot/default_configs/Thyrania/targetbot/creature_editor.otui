@@ -81,7 +81,7 @@ TargetBotCreatureEditorWindow < MainWindow
     anchors.right: parent.right
     anchors.top: prev.bottom
     text-align: center
-    !text: tr('Pode colocar vÃ¡rios alvos, separados por vÃ­rgula')
+    !text: tr('Pode colocar vários alvos, separados por vírgula')
   
   TextEdit
     id: name

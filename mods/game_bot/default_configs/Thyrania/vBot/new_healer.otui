@@ -177,7 +177,7 @@ Vocations < FlatPanel
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.top: parent.top
     font: verdana-11px-rounded
-    text: VocaÃ§Ãµes
+    text: Vocações
   HorizontalSeparator
     anchors.top: prev.bottom
     margin-top: 2
@@ -226,7 +226,7 @@ Priority < Panel
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.top: parent.top
     font: verdana-11px-rounded
-    text: Prioridade e opÃ§Ãµes
+    text: Prioridade e opções
   TextList
     id: list
     anchors.top: prev.bottom
@@ -245,7 +245,7 @@ AddPlayer < FlatPanel
     anchors.left: parent.left
     anchors.right: parent.right
     font: verdana-11px-rounded
-    text: Adicionar jogador Ã  lista
+    text: Adicionar jogador à lista
     text-align: center
     text-wrap: true
 
@@ -342,7 +342,7 @@ Conditions < Panel
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.top: parent.top
     font: verdana-11px-rounded
-    text: CondiÃ§Ãµes do jogador
+    text: Condições do jogador
   Panel
     id: box
     anchors.fill: parent

@@ -1,4 +1,4 @@
-setDefaultTab("Cura")
+setDefaultTab("Comida")
 if voc() ~= 1 and voc() ~= 11 and voc() ~= 5 and voc() ~= 15 then
     if storage.foodItems then
         local t = {}

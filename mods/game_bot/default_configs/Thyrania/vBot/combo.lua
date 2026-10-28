@@ -1,4 +1,4 @@
-setDefaultTab("InÃ­cio")
+setDefaultTab("Início")
 local panelName = "combobot"
 local ui = setupUI([[
 Panel

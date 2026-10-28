@@ -192,7 +192,7 @@ if rootWidget then
       vBotConfigSave("heal")
       healWindow.healer:show()
       healWindow.settings:hide()
-      healWindow.settingsButton:setText("ConfiguraÃ§Ãµes")
+      healWindow.settingsButton:setText("Configurações")
     end
   end
 
@@ -204,7 +204,7 @@ if rootWidget then
     else
       healWindow.healer:show()
       healWindow.settings:hide()
-      widget:setText("ConfiguraÃ§Ãµes")
+      widget:setText("Configurações")
     end
   end
 

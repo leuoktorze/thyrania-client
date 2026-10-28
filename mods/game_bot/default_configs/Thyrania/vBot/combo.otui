@@ -34,7 +34,7 @@ ComboTrigger < Panel
     id: leaderLabel
     anchors.left: triggerLabel1.right
     anchors.top: triggerLabel1.top
-    text: LÃ­der:
+    text: Líder:
     margin-left: 35
 
   TextEdit
@@ -81,7 +81,7 @@ ComboTrigger < Panel
     id: leaderLabel1
     anchors.left: triggerLabel2.right
     anchors.top: triggerLabel2.top
-    text: LÃ­der:
+    text: Líder:
     margin-left: 24
 
   TextEdit
@@ -113,7 +113,7 @@ ComboTrigger < Panel
     id: leaderLabel2
     anchors.left: triggerLabel3.right
     anchors.top: triggerLabel3.top
-    text: LÃ­der:
+    text: Líder:
     margin-left: 32
 
   TextEdit
@@ -242,7 +242,7 @@ ComboActions < Panel
     anchors.right: attackSpellToggle.right
     anchors.bottom: attackItem.bottom
     margin-left: 5
-    text: Comandos do lÃ­der
+    text: Comandos do líder
     text-wrap: true
     multiline: true
 
@@ -257,7 +257,7 @@ BotServer < Panel
     id: labelX
     anchors.left: parent.left
     anchors.top: parent.top
-    text: LÃ­der:
+    text: Líder:
     height: 15
     color: #ffaa00
     margin-left: 3
@@ -301,7 +301,7 @@ BotServer < Panel
     anchors.right: partyButton.right
     margin-top: 3
     height: 30
-    text: Alvo do lÃ­der
+    text: Alvo do líder
   BotSwitch
     id: Triggers
     anchors.left: prev.right
@@ -313,7 +313,7 @@ BotServer < Panel
     margin-right: 3
     text: Gatilhos
 ComboWindow < MainWindow
-  !text: tr('OpÃ§Ãµes do combo')
+  !text: tr('Opções do combo')
   size: 500 280
   @onEscape: self:hide()
 
@@ -343,7 +343,7 @@ ComboWindow < MainWindow
     anchors.left: parent.left
     margin-left: 10
     margin-top: 85
-    text: AÃ§Ãµes do combo
+    text: Ações do combo
     color: #ff7700
 
   BotServer

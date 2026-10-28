@@ -23,7 +23,7 @@ local LOCKER_ACCESSTILE_MODIFIERS = {
 }
 
 local function CaveBotConfigParse()
-	-- Thyrania: sem Targetbot n√£o existe config de looting
+	-- Thyrania: sem Targetbot n„o existe config de looting
 	local cfg = storage["_configs"] and storage["_configs"]["targetbot_configs"]
 	local name = cfg and cfg["selected"]
     if not name then

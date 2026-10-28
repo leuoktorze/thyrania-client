@@ -103,7 +103,7 @@ SuppliesWindow < MainWindow
     margin-left: 10
     margin-top: 3
     text-align: center
-    text: CondiÃ§Ãµes extras:
+    text: Condições extras:
   HorizontalSeparator
     anchors.top: prev.bottom
     anchors.left: prev.left
@@ -229,7 +229,7 @@ SuppliesWindow < MainWindow
     anchors.right: items.right
     text: +
     width: 50
-    tooltip: aumentar o mÃ¡ximo de supplies pela mÃ©dia
+    tooltip: aumentar o máximo de supplies pela média
   Button
     id: decrement
     anchors.verticalCenter: prev.verticalCenter
@@ -237,4 +237,4 @@ SuppliesWindow < MainWindow
     margin-right: 3
     text: -
     width: 50
-    tooltip: diminuir o mÃ¡ximo de supplies pela mÃ©dia
+    tooltip: diminuir o máximo de supplies pela média

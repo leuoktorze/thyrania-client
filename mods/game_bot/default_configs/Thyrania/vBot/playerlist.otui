@@ -32,7 +32,7 @@ Settings < FlatPanel
     type: verticalBox
 
   Label
-    text: ConfiguraÃ§Ãµes extras
+    text: Configurações extras
     text-align: center
     font: verdana-11px-rounded
 
@@ -47,7 +47,7 @@ Settings < FlatPanel
     text: Pintar de vermelho ou azul os jogadores da lista.
   SettingCheckBox
     id: NeutralsAreEnemy
-    text: Considerar inimigo todo jogador que nÃ£o for amigo.
+    text: Considerar inimigo todo jogador que não for amigo.
   SettingCheckBox
     id: Highlight
     text: Destacar em vermelho ou azul os jogadores da lista.

@@ -94,7 +94,7 @@ Rule < UIWidget
     width: 14
     height: 14
     text-align: center
-    tooltip: Itens precisam estar visÃ­veis
+    tooltip: Itens precisam estar visíveis
     anchors.verticalCenter: parent.verticalCenter
 
 ConditionPanel < Panel
@@ -213,7 +213,7 @@ InputPanel < FlatPanel
     id: title
     anchors.verticalCenter: parent.top
     anchors.left: parent.left
-    text: Painel de condiÃ§Ãµes
+    text: Painel de condições
     font: verdana-11px-rounded
     color: #FF0000
 
@@ -356,7 +356,7 @@ EQPanel < FlatPanel
     margin-top: 13
     anchors.left: head.right
     margin-left: 5
-    tooltip: NÃ£o dÃ¡ para mudar a mochila principal.
+    tooltip: Não dá para mudar a mochila principal.
   SlotBotItem
     id: right-hand
     image-source: /images/game/slots/right-hand
@@ -381,7 +381,7 @@ EQPanel < FlatPanel
     margin-top: 15
     text: Copiar equipamento atual
     font: verdana-11px-rounded
-    tooltip: Copiar os itens equipados e nÃ£o equipados.
+    tooltip: Copiar os itens equipados e não equipados.
   BotButton
     id: default
     anchors.top: prev.bottom

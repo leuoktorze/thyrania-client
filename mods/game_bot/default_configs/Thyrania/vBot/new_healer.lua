@@ -1,4 +1,4 @@
-setDefaultTab("InÃ­cio")
+setDefaultTab("Início")
 local panelName = "newHealer"
 local ui = setupUI([[
 Panel
@@ -340,7 +340,7 @@ for i, action in ipairs(config.priorities) do
         widget.onTextChange = function(widget,text)
             action.name = text
         end
-        widget:setTooltip("Clique duas vezes para definir a fÃ³rmula da magia.")
+        widget:setTooltip("Clique duas vezes para definir a fórmula da magia.")
     end
 
     if i == #config.priorities then

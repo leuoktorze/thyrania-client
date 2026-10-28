@@ -1,4 +1,4 @@
--- Thyrania: s√≥ o TargetBot (atacar sozinho os monstros por perto). O Cavebot (andar sozinho) n√£o existe.
+-- Thyrania: sÛ o TargetBot (atacar sozinho os monstros por perto). O Cavebot (andar sozinho) n„o existe.
 -- Mesmo trecho do vBot/cavebot.lua original, sem a parte do Cavebot.
 setDefaultTab("Alvo")
 TargetBot = {} -- global namespace

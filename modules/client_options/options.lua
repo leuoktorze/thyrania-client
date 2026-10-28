@@ -604,6 +604,20 @@ function setupOptionsMainButton()
         '/images/options/button_options', toggle, true)
 end
 
+-- Thyrania: modo grafico com um clique (Qualidade / Desempenho) nas opcoes de Graficos
+local thyGraphicsPresets = {
+    quality = { antialiasingMode = 1, optimizeFps = false, forceEffectOptimization = false, floorFading = 500, shadowFloorIntensity = 30 },
+    performance = { antialiasingMode = 0, optimizeFps = true, forceEffectOptimization = true, floorFading = 0, shadowFloorIntensity = 0 },
+}
+
+function applyGraphicsPreset(name)
+    local preset = thyGraphicsPresets[name]
+    if not preset then return end
+    for key, value in pairs(preset) do
+        setOption(key, value)
+    end
+end
+
 function getOption(key)
     local option = options[key]
     if option == nil then

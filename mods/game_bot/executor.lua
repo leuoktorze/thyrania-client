@@ -5,7 +5,7 @@ function executeBot(config, storage, tabs, msgCallback, saveConfigCallback, relo
   local uiFiles = {}
   for i, file in ipairs(configFiles) do
     local ext = file:split(".")
-    -- Thyrania: sÃ³ o _Loader.lua da config roda (arquivos .lua extras na pasta sÃ£o ignorados)
+    -- Thyrania: só o _Loader.lua da config roda (arquivos .lua extras na pasta são ignorados)
     if ext[#ext]:lower() == "lua" and file:match("/_Loader%.lua$") then
       table.insert(luaFiles, file)
     end
@@ -22,7 +22,7 @@ function executeBot(config, storage, tabs, msgCallback, saveConfigCallback, relo
   local context = {}
   context.configDir = "/bot/".. config
   context.tabs = tabs
-  context.mainTab = context.tabs:addTab("InÃ­cio", g_ui.createWidget('BotPanel')).tabPanel.content
+  context.mainTab = context.tabs:addTab("Início", g_ui.createWidget('BotPanel')).tabPanel.content
   context.panel = context.mainTab
   context.saveConfig = saveConfigCallback
   context.reload = reloadCallback
@@ -226,7 +226,7 @@ function executeBot(config, storage, tabs, msgCallback, saveConfigCallback, relo
         end
       end
 
-      -- Thyrania: tira da fila ANTES de rodar (se o callback agendar outro, nÃ£o remove o errado)
+      -- Thyrania: tira da fila ANTES de rodar (se o callback agendar outro, não remove o errado)
       local ran = 0
       while #context._scheduler > 0 and context._scheduler[1].execution <= g_clock.millis() and ran < 200 do
         local entry = table.remove(context._scheduler, 1)

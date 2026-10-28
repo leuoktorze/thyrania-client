@@ -255,7 +255,7 @@ function refresh()
 
   if not g_game.isOnline() or not settings[index].enabled then
     statusLabel:setOn(true)
-    statusLabel:setText("Status: desligado\nClique no bot√£o off para ligar")
+    statusLabel:setText("Status: desligado\nClique no bot„o off para ligar")
     analyzerButton = modules.game_mainpanel.getButton("botAnalyzersButton")
     if analyzerButton then
       analyzerButton:destroy()
@@ -395,16 +395,19 @@ local function copyFilesRecursively(sourcePath, targetPath)
     end
 end
 
--- Thyrania (diagn√≥stico do congelamento na 15.x): cada passo do liga/desliga vai para
--- <pasta do usu√°rio>/thyrania_trace.txt, gravado na hora (se o cliente travar, o arquivo mostra onde).
+-- Thyrania (diagnÛstico do congelamento na 15.x): cada passo do liga/desliga vai para
+-- <pasta do usu·rio>/thyrania_trace.txt, gravado na hora (se o cliente travar, o arquivo mostra onde).
+-- Ligado sÛ se existir o arquivo thyrania_debug.txt na pasta do usu·rio (sen„o n„o grava nada).
+thyDebug = g_resources.fileExists("/thyrania_debug.txt")
 thyTraceText = ""
 function thyTrace(msg)
+  if not thyDebug then return end
   thyTraceText = thyTraceText .. os.date("%H:%M:%S") .. string.format(" %.3f ", g_clock.millis() / 1000) .. msg .. "\n"
   if thyTraceText:len() > 60000 then thyTraceText = thyTraceText:sub(-30000) end
   pcall(function() g_resources.writeFileContents("/thyrania_trace.txt", thyTraceText) end)
 end
 
--- Vigia: se um macro/callback do bot ficar rodando mais de 2s (la√ßo infinito), grava qual foi
+-- Vigia: se um macro/callback do bot ficar rodando mais de 2s (laÁo infinito), grava qual foi
 -- no thyrania_trace.txt e interrompe ele, em vez de congelar o cliente.
 thyCurrent, thyCurrentStart, thyLastMark = nil, 0, 0
 function thyGuard(name, fn, ...)
@@ -421,20 +424,20 @@ function thyGuard(name, fn, ...)
   if not res[1] then error(res[2], 0) end
   return unpack(res, 2)
 end
--- batida do la√ßo principal: se ela parar e o Lua continuar rodando, o vigia acima percebe
+-- batida do laÁo principal: se ela parar e o Lua continuar rodando, o vigia acima percebe
 thyTick = g_clock.millis()
 cycleEvent(function() thyTick = g_clock.millis() end, 250)
-pcall(function()
-  if jit then jit.off() end -- o vigia s√≥ funciona com o JIT desligado (o LuaJIT n√£o chama o hook no c√≥digo compilado)
+if thyDebug then pcall(function()
+  if jit then jit.off() end -- o vigia sÛ funciona com o JIT desligado (o LuaJIT n„o chama o hook no cÛdigo compilado)
   debug.sethook(function()
-    -- vigia geral: o la√ßo principal do cliente parou (check() n√£o roda h√° 3s) mas o Lua continua
-    -- rodando -> grava onde est√° preso e interrompe
+    -- vigia geral: o laÁo principal do cliente parou (check() n„o roda h· 3s) mas o Lua continua
+    -- rodando -> grava onde est· preso e interrompe
     local nowMs = g_clock.millis()
     if thyTick and botExecutor and nowMs - thyTick > 3000 and nowMs - (thyStuckLogged or 0) > 1000 then
       thyStuckLogged = nowMs
-      thyTrace("CLIENTE PRESO (" .. (nowMs - thyTick) .. " ms sem voltar ao la√ßo principal):\n" .. debug.traceback())
+      thyTrace("CLIENTE PRESO (" .. (nowMs - thyTick) .. " ms sem voltar ao laÁo principal):\n" .. debug.traceback())
       if nowMs - thyTick > 6000 then
-        thyTick = nowMs -- d√° mais 3s antes de tentar de novo
+        thyTick = nowMs -- d· mais 3s antes de tentar de novo
         error("Thyrania: cliente preso, interrompendo", 0)
       end
     end
@@ -445,10 +448,10 @@ pcall(function()
       error("Thyrania: '" .. name .. "' travou e foi interrompido", 0)
     end
   end, "", 200000)
-end)
+end) end
 
--- Thyrania: s√≥ existe a config "Thyrania" (o Auxiliador). Os arquivos de c√≥digo dela s√£o copiados
--- de novo toda vez (edi√ß√µes locais s√£o desfeitas); as prefer√™ncias do jogador (vBot_configs) ficam.
+-- Thyrania: sÛ existe a config "Thyrania" (o Auxiliador). Os arquivos de cÛdigo dela s„o copiados
+-- de novo toda vez (ediÁıes locais s„o desfeitas); as preferÍncias do jogador (vBot_configs) ficam.
 THYRANIA_CONFIG = "Thyrania"
 
 function createDefaultConfigs()

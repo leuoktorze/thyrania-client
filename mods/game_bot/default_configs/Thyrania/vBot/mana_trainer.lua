@@ -1,5 +1,5 @@
 -- Thyrania: treino de magic level (gasta mana numa magia quando a mana passa de X%).
-setDefaultTab("Cura")
+setDefaultTab("Mana")
 UI.Separator()
 UI.Label("Treino de mana:")
 if type(storage.manaTrainer) ~= "table" then

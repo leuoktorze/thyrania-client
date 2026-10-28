@@ -1,6 +1,6 @@
--- Auxiliador do Thyrania: o Cavebot do vBot N√ÉO √© carregado (decis√£o do servidor: sem bot que
--- anda sozinho pela hunt). O Targetbot (atacar e lootear sozinho) fica. Alguns m√≥dulos ainda
--- perguntam pelo Cavebot; aqui ficam vers√µes "sempre desligadas" para eles funcionarem sem ele.
+-- Auxiliador do Thyrania: o Cavebot do vBot N√O È carregado (decis„o do servidor: sem bot que
+-- anda sozinho pela hunt). O Targetbot (atacar e lootear sozinho) fica. Alguns mÛdulos ainda
+-- perguntam pelo Cavebot; aqui ficam versıes "sempre desligadas" para eles funcionarem sem ele.
 CaveBot = CaveBot or {}
 CaveBot.isOn = function() return false end
 CaveBot.isOff = function() return true end

@@ -66,7 +66,7 @@ TrackerItem < Panel
     anchors.left: prev.right
     anchors.right: parent.right
     margin-left: 5
-    text: Escolha o item para comeÃ§ar.
+    text: Escolha o item para começar.
     text-align:left
     font: verdana-11px-rounded
     color: #FFFFFF
@@ -293,12 +293,12 @@ MainAnalyzerWindow < MiniWindow
 
     AnalyzerButton
       id: Settings
-      text: OpÃ§Ãµes
+      text: Opções
       color: #FABD02
 
     AnalyzerButton
       id: ResetSession
-      text: Zerar sessÃ£o
+      text: Zerar sessão
       color: #FF0000
 
 HuntingAnalyzer < MiniWindow
@@ -402,7 +402,7 @@ FeaturesWindow < MainWindow
   id: FeaturesWindow
   size: 250 370
   padding: 15
-  text: OpÃ§Ãµes dos analisadores
+  text: Opções dos analisadores
   @onEscape: self:hide()
 
   TextList

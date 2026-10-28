@@ -49,7 +49,7 @@ CureConditions < Panel
     anchors.left: label1.left
     anchors.top: label1.bottom
     margin-top: 10
-    text: MaldiÃ§Ã£o
+    text: Maldição
     color: #ffaa00
     font: verdana-11px-rounded
 
@@ -393,7 +393,7 @@ HoldConditions < Panel
     anchors.left: prev.right
     margin-top: 3
     margin-left: 5
-    text: NÃ£o usar em zona protegida
+    text: Não usar em zona protegida
     font: cipsoftFont
 
   CheckBox
@@ -411,7 +411,7 @@ HoldConditions < Panel
     font: cipsoftFont
 
 ConditionsWindow < MainWindow
-  !text: tr('CondiÃ§Ãµes')
+  !text: tr('Condições')
   size: 445 280
   @onEscape: self:hide()
 
@@ -425,7 +425,7 @@ ConditionsWindow < MainWindow
     id: label
     anchors.top: parent.top
     anchors.left: parent.left
-    text: Curar condiÃ§Ãµes
+    text: Curar condições
     color: #88e3dd
     margin-left: 10
     font: verdana-11px-rounded
@@ -440,7 +440,7 @@ ConditionsWindow < MainWindow
     id: label
     anchors.top: parent.top
     anchors.right: parent.right
-    text: Manter condiÃ§Ãµes
+    text: Manter condições
     color: #88e3dd
     margin-right: 100
     font: verdana-11px-rounded

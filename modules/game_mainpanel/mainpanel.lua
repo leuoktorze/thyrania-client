@@ -448,7 +448,7 @@ function moveToAvailable()
 end
 
 function moveToDisplayed()
-    local availableList = optionPanel.panelAvailableButtons.displayedAvailableButtonsList
+    local availableList = optionPanel.optionControlButtonsScrollArea.panelAvailableButtons.displayedAvailableButtonsList
     local selectedItem = availableList:getFocusedChild()
 
     if not selectedItem then

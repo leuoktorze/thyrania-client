@@ -46,7 +46,7 @@ TargetBotLootingPanel < Panel
     Label
       anchors.left: parent.left
       anchors.verticalCenter: prev.verticalCenter
-      text: Perigo mÃ¡x.:
+      text: Perigo máx.:
       margin-left: 5
 
   Panel
@@ -65,5 +65,5 @@ TargetBotLootingPanel < Panel
     Label
       anchors.left: parent.left
       anchors.verticalCenter: prev.verticalCenter
-      text: Cap mÃ­nima:
+      text: Cap mínima:
       margin-left: 5

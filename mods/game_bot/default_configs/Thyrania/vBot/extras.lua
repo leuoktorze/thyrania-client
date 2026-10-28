@@ -1,4 +1,4 @@
-setDefaultTab("InÃ­cio")
+setDefaultTab("Início")
 
 -- securing storage namespace
 local panelName = "extras"
@@ -117,7 +117,7 @@ UI.Separator()
 
 addItem("rope", "Item corda", 9596, leftPanel,
   "This item will be used in various bot related scripts as default rope item.")
-addItem("shovel", "Item pÃ¡", 9596, leftPanel,
+addItem("shovel", "Item pá", 9596, leftPanel,
   "This item will be used in various bot related scripts as default shovel item.")
 addItem("machete", "Item machete", 9596, leftPanel,
   "This item will be used in various bot related scripts as default machete item.")
@@ -137,12 +137,12 @@ addScrollBar("killUnder", "Matar monstros abaixo de", 0, 100, 1, leftPanel,
   "Force TargetBot to kill added creatures when they are below set percentage of health - will ignore all other TargetBot settings.")
 addScrollBar("gotoMaxDistance", "Max GoTo Distance", 0, 127, 30, leftPanel,
   "Maximum distance to next goto waypoint for the bot to try to reach.")
-addCheckBox("lootLast", "Lootear do Ãºltimo corpo", true, leftPanel,
+addCheckBox("lootLast", "Lootear do último corpo", true, leftPanel,
   "Looting sequence will be reverted and bot will start looting newest bodies.")
 addCheckBox("joinBot", "Juntar abas", false, leftPanel, "Cave and Target tabs will be joined into one.")
-addCheckBox("reachable", "SÃ³ atacar monstros alcanÃ§Ã¡veis", false, leftPanel, "Ignore monsters that can't be reached.")
+addCheckBox("reachable", "Só atacar monstros alcançáveis", false, leftPanel, "Ignore monsters that can't be reached.")
 
-addCheckBox("title", "TÃ­tulo da janela", true, rightPanel,
+addCheckBox("title", "Título da janela", true, rightPanel,
   "Personalize OTCv8 window name according to character specific.")
 if true then
   local vocText = ""
@@ -612,7 +612,7 @@ if true then
   end)
 end
 
-addCheckBox("nextBackpack", "Abrir prÃ³xima bag de loot", true, leftPanel,
+addCheckBox("nextBackpack", "Abrir próxima bag de loot", true, leftPanel,
   "Auto open next loot container if full - has to have the same ID.")
 local function openNextLootContainer()
   if not settings.nextBackpack then return end

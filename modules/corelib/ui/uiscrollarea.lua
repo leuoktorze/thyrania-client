@@ -35,8 +35,8 @@ function UIScrollArea:onStyleApply(styleName, styleNode)
 end
 
 function UIScrollArea:updateScrollBars()
-    -- Thyrania: proteÃ§Ã£o contra o laÃ§o infinito layout -> barra de rolagem -> layout (congelava o cliente
-    -- quando uma aba do Auxiliador ficava comprida). Se for chamada sem parar, dÃ¡ um tempo.
+    -- Thyrania: proteção contra o laço infinito layout -> barra de rolagem -> layout (congelava o cliente
+    -- quando uma aba do Auxiliador ficava comprida). Se for chamada sem parar, dá um tempo.
     local now = g_clock.millis()
     if self._thyWindowStart == nil or now - self._thyWindowStart > 200 then
         self._thyWindowStart = now
@@ -49,8 +49,8 @@ function UIScrollArea:updateScrollBars()
             pcall(function()
                 local ids, w = {}, self
                 while w and #ids < 8 do ids[#ids + 1] = w:getId(); w = w:getParent() end
-                g_resources.writeFileContents("/thyrania_scroll.txt", os.date("%H:%M:%S") .. " laÃ§o de rolagem interrompido em: " .. table.concat(ids, " < ") ..
-                    "\naltura do conteÃºdo: " .. tostring(self:getChildrenRect().height) .. " area: " .. tostring(self:getPaddingRect().height) .. "\n")
+                g_resources.writeFileContents("/thyrania_scroll.txt", os.date("%H:%M:%S") .. " laço de rolagem interrompido em: " .. table.concat(ids, " < ") ..
+                    "\naltura do conteúdo: " .. tostring(self:getChildrenRect().height) .. " area: " .. tostring(self:getPaddingRect().height) .. "\n")
             end)
             scheduleEvent(function()
                 self._thyRetry = nil

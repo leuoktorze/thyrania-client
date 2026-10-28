@@ -126,7 +126,7 @@ TargetBot.Looting.process = function(targets, dangerLevel)
   -- check if there's container for loot and has empty space for it
   if not lootContainers[1] then
     -- there's no space, don't loot
-    status = "Sem espaÃ§o"
+    status = "Sem espaço"
     return false
   end
 

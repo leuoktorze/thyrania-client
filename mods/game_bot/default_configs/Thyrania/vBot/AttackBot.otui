@@ -123,7 +123,7 @@ CategoryLabel < Panel
     id: description
     anchors.fill: parent
     text-align: center
-    text: Runa de Ã¡rea (avalanche, great fireball etc.)
+    text: Runa de área (avalanche, great fireball etc.)
     font: verdana-11px-rounded
     background: #363636
 
@@ -443,14 +443,14 @@ SettingsPanel < Panel
     anchors.right: parent.right
     anchors.bottom: parent.bottom
     text-align: center
-    text: Zerar configuraÃ§Ãµes
+    text: Zerar configurações
   CheckBox
     id: IgnoreMana
     anchors.top: parent.top
     anchors.left: parent.left
     margin-top: 5
     width: 200
-    text: Checar condiÃ§Ãµes do Tibia oficial
+    text: Checar condições do Tibia oficial
   CheckBox
     id: Kills
     anchors.top: prev.bottom
@@ -458,7 +458,7 @@ SettingsPanel < Panel
     margin-top: 8
     width: 200
     height: 22
-    text: NÃ£o usar ataque em Ã¡rea perto da red skull
+    text: Não usar ataque em área perto da red skull
     text-wrap: true
     text-align: left
 
@@ -494,7 +494,7 @@ SettingsPanel < Panel
     anchors.left: prev.left
     margin-top: 8
     width: 245
-    text: Itens precisam estar visÃ­veis (recomendado)
+    text: Itens precisam estar visíveis (recomendado)
   CheckBox
     id: PvpMode
     anchors.top: prev.bottom
@@ -566,7 +566,7 @@ AttackBotWindow < MainWindow
     anchors.verticalCenter: prev.top
     anchors.left: prev.left
     margin-left: 3
-    text: ConfiguraÃ§Ãµes
+    text: Configurações
     color: #fe4400
     font: verdana-11px-rounded
 
@@ -583,7 +583,7 @@ AttackBotWindow < MainWindow
     anchors.verticalCenter: prev.top
     anchors.left: prev.left
     margin-left: 3
-    text: RotaÃ§Ã£o de magias
+    text: Rotação de magias
     color: #fe4400
     font: verdana-11px-rounded
     visible: false
@@ -608,4 +608,4 @@ AttackBotWindow < MainWindow
     anchors.verticalCenter: prev.verticalCenter
     size: 50 21
     font: cipsoftFont
-    text: ConfiguraÃ§Ãµes
+    text: Configurações

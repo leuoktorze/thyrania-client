@@ -9,7 +9,7 @@ VocationPanel < Panel
     anchors.left: parent.left
     anchors.right: parent.right
     text-align: center
-    text: Curar sÃ³:
+    text: Curar só:
   BotSwitch
     id: ED
     anchors.bottom: parent.bottom
@@ -44,7 +44,7 @@ VocationPanel < Panel
     text: Monks
 
 SioListWindow < MainWindow
-  !text: tr('OpÃ§Ãµes de cura')
+  !text: tr('Opções de cura')
   size: 220 360
   @onEscape: self:hide()
 
@@ -77,7 +77,7 @@ SioListWindow < MainWindow
     anchors.top: prev.bottom
     anchors.left: parent.left
     anchors.right: parent.right
-    text: Magia prÃ³pria
+    text: Magia própria
     margin-top: 3
     text-align: center
 
@@ -117,7 +117,7 @@ SioListWindow < MainWindow
     anchors.right: parent.right
     anchors.bottom: itemId.bottom
     text-align: center
-    text: DistÃ¢ncia mÃ¡xima
+    text: Distância máxima
   HorizontalScrollBar
     id: Distance
     anchors.left: parent.left

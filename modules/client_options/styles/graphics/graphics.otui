@@ -3,11 +3,39 @@ UIWidget
   visible: false
 
   Label
-    !text: 'Antialiasing Mode:'
+    id: thyGraphicsPresetLabel
+    !text: 'Modo grafico:'
     anchors.left: parent.left
     margin-left: 18
     color: #c0c0c0ff
     anchors.top: parent.top
+    margin-top: 4
+
+  QtButton
+    id: thyPresetQuality
+    !text: 'Qualidade'
+    width: 90
+    margin-left: 10
+    anchors.verticalCenter: prev.verticalCenter
+    anchors.left: prev.right
+    @onClick: modules.client_options.applyGraphicsPreset('quality')
+
+  QtButton
+    id: thyPresetPerformance
+    !text: 'Desempenho'
+    width: 90
+    margin-left: 6
+    anchors.verticalCenter: prev.verticalCenter
+    anchors.left: prev.right
+    @onClick: modules.client_options.applyGraphicsPreset('performance')
+
+  Label
+    !text: 'Antialiasing Mode:'
+    anchors.left: parent.left
+    margin-left: 18
+    color: #c0c0c0ff
+    anchors.top: thyGraphicsPresetLabel.bottom
+    margin-top: 12
 
   QtComboBox
     id: antialiasingMode
