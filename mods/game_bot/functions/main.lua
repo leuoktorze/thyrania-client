@@ -47,6 +47,10 @@ context.macro = function(timeout, name, hotkey, callback, parent)
     hotkey = hotkey,
   })
   local macro = context._macros[#context._macros]
+  pcall(function()
+    local info = context._thyDebug.getinfo(2, "Sl")
+    if info then macro._source = tostring(info.short_src) .. ":" .. tostring(info.currentline) end
+  end)
 
   macro.isOn = function()
     return macro.enabled
@@ -195,9 +199,15 @@ end
 -- schedule(timeout, callback)
 context.schedule = function(timeout, callback)
   local extecute_time = g_clock.millis() + timeout
+  local source = ""
+  pcall(function()
+    local info = context._thyDebug.getinfo(2, "Sl")
+    if info then source = tostring(info.short_src) .. ":" .. tostring(info.currentline) end
+  end)
   table.insert(context._scheduler, {
     execution = extecute_time,
-    callback = callback
+    callback = callback,
+    source = source
   })
   table.sort(context._scheduler, function(a, b) return a.execution < b.execution end)
 end

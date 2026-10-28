@@ -35,6 +35,7 @@ function executeBot(config, storage, tabs, msgCallback, saveConfigCallback, relo
   -- websockets, macros, hotkeys, scheduler, icons, callbacks
   context._websockets = websockets
   context._macros = {}
+  context._thyDebug = debug
   context._hotkeys = {}
   context._scheduler = {}
   context._callbacks = {
@@ -199,7 +200,8 @@ function executeBot(config, storage, tabs, msgCallback, saveConfigCallback, relo
     context.panel = context.mainTab -- reset default tab
   end
 
-  return {
+  local thyResult
+  thyResult = {
     script = function()
       context.now = g_clock.millis()
       context.time = g_clock.millis()
@@ -209,7 +211,7 @@ function executeBot(config, storage, tabs, msgCallback, saveConfigCallback, relo
           local first = not macro._thyTraced
           if first and thyTrace then thyTrace("macro " .. i .. " (" .. tostring(macro.name) .. ") 1a vez: inicio") end
           local status, result = pcall(function()
-            if macro.callback(macro) then
+            if thyGuard("macro " .. i .. " " .. tostring(macro.name) .. " " .. tostring(macro._source or ""), macro.callback, macro) then
                 macro.lastExecution = context.now
             end
           end)
@@ -223,14 +225,17 @@ function executeBot(config, storage, tabs, msgCallback, saveConfigCallback, relo
         end
       end
 
-      while #context._scheduler > 0 and context._scheduler[1].execution <= g_clock.millis() do
+      -- Thyrania: tira da fila ANTES de rodar (se o callback agendar outro, não remove o errado)
+      local ran = 0
+      while #context._scheduler > 0 and context._scheduler[1].execution <= g_clock.millis() and ran < 200 do
+        local entry = table.remove(context._scheduler, 1)
+        ran = ran + 1
         local status, result = pcall(function()
-          context._scheduler[1].callback()
+          thyGuard("schedule " .. tostring(entry.source or ""), entry.callback)
         end)
         if not status then
           context.error("Schedule execution error: " .. result)
         end
-        table.remove(context._scheduler, 1)
       end
     end,
     callbacks = {
@@ -452,4 +457,10 @@ function executeBot(config, storage, tabs, msgCallback, saveConfigCallback, relo
       end
     }
   }
+  for name, fn in pairs(thyResult.callbacks) do
+    thyResult.callbacks[name] = function(...)
+      return thyGuard("evento " .. name, fn, ...)
+    end
+  end
+  return thyResult
 end

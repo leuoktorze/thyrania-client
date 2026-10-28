@@ -404,6 +404,35 @@ function thyTrace(msg)
   pcall(function() g_resources.writeFileContents("/thyrania_trace.txt", thyTraceText) end)
 end
 
+-- Vigia: se um macro/callback do bot ficar rodando mais de 2s (laço infinito), grava qual foi
+-- no thyrania_trace.txt e interrompe ele, em vez de congelar o cliente.
+thyCurrent, thyCurrentStart, thyLastMark = nil, 0, 0
+function thyGuard(name, fn, ...)
+  local prevName, prevStart = thyCurrent, thyCurrentStart
+  thyCurrent, thyCurrentStart = name, g_clock.millis()
+  if thyCurrentStart - thyLastMark > 250 then
+    thyLastMark = thyCurrentStart
+    thyTrace("em: " .. name)
+  end
+  local res = { pcall(fn, ...) }
+  local took = g_clock.millis() - thyCurrentStart
+  if took > 300 then thyTrace("LENTO (" .. took .. " ms): " .. name) end
+  thyCurrent, thyCurrentStart = prevName, prevStart
+  if not res[1] then error(res[2], 0) end
+  return unpack(res, 2)
+end
+pcall(function()
+  if jit then jit.off() end -- o vigia só funciona com o JIT desligado (o LuaJIT não chama o hook no código compilado)
+  debug.sethook(function()
+    if thyCurrent and g_clock.millis() - thyCurrentStart > 2000 then
+      local name = thyCurrent
+      thyCurrent = nil
+      thyTrace("TRAVOU em " .. name .. "\n" .. debug.traceback())
+      error("Thyrania: '" .. name .. "' travou e foi interrompido", 0)
+    end
+  end, "", 200000)
+end)
+
 -- Thyrania: só existe a config "Thyrania" (o Auxiliador). Os arquivos de código dela são copiados
 -- de novo toda vez (edições locais são desfeitas); as preferências do jogador (vBot_configs) ficam.
 THYRANIA_CONFIG = "Thyrania"
