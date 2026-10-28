@@ -1,7 +1,7 @@
 -- Auxiliador do Thyrania (baseado no vBot 4.8).
 -- Liberado: cura (HealBot), ataque/rotação de magias (AttackBot), condições (haste, utamo...),
 -- comida, troca de gold, equipar rings/amulets e ferramentas.
--- Fora: Cavebot e Targetbot (andar/caçar sozinho), editor de scripts e servidor de bot.
+-- Alvo (Targetbot): ataca e looteia sozinho. Fora: Cavebot (andar sozinho), editor de scripts e servidor de bot.
 local configName = modules.game_bot.contentsPanel.config:getCurrentOption().text
 
 local configFiles = g_resources.listDirectoryFiles("/bot/" .. configName .. "/vBot", true, false)
@@ -16,6 +16,9 @@ local function loadScript(name)
   return dofile("/vBot/" .. name .. ".lua")
 end
 
+-- Auxiliador LEVE (teste da 15.x): só o essencial. Os módulos pesados do vBot (analyzer, supplies,
+-- containers, playerlist, alarms...) ficam de fora até descobrirmos qual travava o cliente.
+-- Para testar um deles, tire o "--" da frente do nome e reabra o cliente.
 local luaFiles = {
   "main",
   "items",
@@ -24,27 +27,29 @@ local luaFiles = {
   "thyrania_stubs",
   "configs", -- não mudar a ordem acima
   "extras",
-  "playerlist",
-  "alarms",
+  "thyrania_targetbot", -- Alvo: atacar e lootear sozinho (sem Cavebot)
   "Conditions",
   "Equipper",
-  "combo",
   "HealBot",
   "new_healer",
+  "mana_trainer",
   "AttackBot",
-  "Dropper",
-  "Containers",
-  "quiver_manager",
-  "quiver_label",
-  "tools",
-  "antiRs",
   "eat_food",
-  "equip",
-  "exeta",
-  "analyzer",
-  "spy_level",
-  "supplies",
   "hold_target",
+  -- "playerlist",
+  -- "alarms",
+  -- "combo",
+  -- "Dropper",
+  -- "Containers",
+  -- "quiver_manager",
+  -- "quiver_label",
+  -- "tools",
+  -- "antiRs",
+  -- "equip",
+  -- "exeta",
+  -- "analyzer",
+  -- "spy_level",
+  -- "supplies",
 }
 
 for i, file in ipairs(luaFiles) do
