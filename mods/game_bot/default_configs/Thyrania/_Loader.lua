@@ -32,9 +32,9 @@ local luaFiles = {
   "Equipper",
   "HealBot",
   "new_healer",
-  "mana_trainer",
-  "AttackBot",
+  -- "mana_trainer", -- (teste: fora, para ver se o travamento era ele ou o tamanho da aba Cura)
   "eat_food",
+  "AttackBot",
   "hold_target",
   -- "playerlist",
   -- "alarms",
