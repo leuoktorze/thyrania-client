@@ -7,15 +7,26 @@ if type(storage.manaTrainer) ~= "table" then
 end
 local cfg = storage.manaTrainer
 
-UI.Label("Magia:")
-UI.TextEdit(cfg.spell or "utevo lux", function(widget, text)
-  cfg.spell = text
+-- (sem caixa de texto no painel: no cliente 15.x a caixa de texto dentro do painel congelava o cliente)
+local spellBtn, pctBtn
+local function refreshButtons()
+  spellBtn:setText("Magia: " .. tostring(cfg.spell))
+  pctBtn:setText("Quando a mana passar de " .. tostring(cfg.percent) .. "%")
+end
+spellBtn = UI.Button("", function()
+  modules.client_textedit.singlelineEditor(cfg.spell or "", function(text)
+    if text and text:len() > 0 then cfg.spell = text end
+    refreshButtons()
+  end)
 end)
-UI.Label("Usar quando a mana passar de (%):")
-UI.TextEdit(tostring(cfg.percent or 90), function(widget, text)
-  local n = tonumber(text)
-  if n and n >= 1 and n <= 100 then cfg.percent = n end
+pctBtn = UI.Button("", function()
+  modules.client_textedit.singlelineEditor(tostring(cfg.percent or 90), function(text)
+    local n = tonumber(text)
+    if n and n >= 1 and n <= 100 then cfg.percent = n end
+    refreshButtons()
+  end)
 end)
+refreshButtons()
 
 macro(500, "Treinar mana", function()
   if not cfg.spell or cfg.spell:len() == 0 then return end
