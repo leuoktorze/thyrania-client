@@ -1,4 +1,4 @@
-setDefaultTab('main')
+setDefaultTab("Ataque") -- Thyrania: aba própria (antes ia para uma aba "main" em inglês)
 -- locales
 local panelName = "AttackBot"
 local currentSettings

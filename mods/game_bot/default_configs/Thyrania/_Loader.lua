@@ -56,6 +56,11 @@ local luaFiles = {
 
 -- Diagnóstico (teste 15.x): carrega um script a cada 3 segundos e anota no thyrania_trace.txt.
 -- Se o cliente congelar, o último "carregando" do arquivo é o culpado.
+-- Ordem das abas do Auxiliador (cada script coloca o seu painel na aba dele)
+for _, tabName in ipairs({ "Início", "Cura", "Ataque", "Alvo", "Buffs", "Comida", "Mana", "Ferramentas" }) do
+  addTab(tabName)
+end
+
 local DIAG = false
 if DIAG then
   for i, file in ipairs(luaFiles) do
