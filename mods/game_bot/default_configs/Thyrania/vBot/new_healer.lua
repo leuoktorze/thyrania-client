@@ -136,7 +136,8 @@ customList.addPanel.add.onClick = function()
         return warn("[Friend Healer] Please enter health percent value!")
     end
 
-    if name:len() == 0 or name:lower() == "friend name" then
+    name = name:trim()
+    if name:len() == 0 or name:lower() == "friend name" or name:lower() == "nome do amigo" then
         clearFields()
         return warn("[Friend Healer] Please enter friend name to be added!")
     end

@@ -589,6 +589,11 @@ if not AttackBotConfig.currentBotProfile or AttackBotConfig.currentBotProfile ==
   AttackBotConfig.currentBotProfile = 1
 end
 
+function isPlaceholderMonsters(text)
+  text = (text or ""):lower()
+  return text:len() == 0 or text == "*" or text == "monster names" or text == "nomes dos monstros"
+end
+
 -- create panel UI
 ui = UI.createWidget("AttackBotBotPanel")
 
@@ -785,6 +790,24 @@ end
     -- refreshing values
     function refreshAttacks()
       if not currentSettings.attackTable then return end
+      -- conserta entradas salvas antes da correção (texto de exemplo gravado como nome de monstro)
+      for _, entry in pairs(currentSettings.attackTable) do
+        if type(entry.creatures) == "string" and isPlaceholderMonsters(entry.creatures:trim()) then
+          entry.creatures = ""
+          entry.monsters = true
+          entry.tooltip = false
+          if entry.description then
+            entry.description = entry.description:gsub(" criaturas: ", " qualquer criatura: ")
+          end
+        end
+        -- "1 monstro" sem "ou mais" só soltava com exatamente 1 monstro na tela: em box nunca saía
+        if entry.count == 1 and not entry.orMore then
+          entry.orMore = true
+          if entry.description then
+            entry.description = entry.description:gsub("^(%[[^%]]+%] )1 ", "%11+ ")
+          end
+        end
+      end
 
       panel.entryList:destroyChildren()
       for i, entry in pairs(currentSettings.attackTable) do
@@ -801,21 +824,27 @@ end
     panel.addEntry.onClick = function(wdiget)
       -- first variables
       local creatures = panel.monsters:getText():lower()
-      local monsters = (creatures:len() == 0 or creatures == "*" or creatures == "monster names") and true or string.split(creatures, ",")
+      creatures = creatures:trim()
+      -- Thyrania: o texto de exemplo do campo ("nomes dos monstros") contava como nome de monstro e a
+      -- magia nunca saía. Campo vazio, "*" ou o texto de exemplo = qualquer monstro.
+      local monsters = isPlaceholderMonsters(creatures) and true or string.split(creatures, ",")
+      if monsters ~= true then
+        for i, n in ipairs(monsters) do monsters[i] = n:trim() end
+      end
       local mana = panel.manaPercent:getValue()
       local count = panel.creatures:getValue()
       local minHp = panel.minHp:getValue()
       local maxHp = panel.maxHp:getValue()
       local cooldown = panel.cooldown:getValue()
       local itemId = panel.itemId:getItemId()
-      local spell = panel.spellName:getText()
+      local spell = panel.spellName:getText():trim()
       local tooltip = monsters ~= true and creatures
       local orMore = panel.orMore:isChecked()
 
       -- validation
       if showItem and itemId < 100 then
         return warn("[AttackBot]: please fill item ID!")
-      elseif not showItem and (spell:lower() == "spell name" or spell:len() == 0) then
+      elseif not showItem and (spell:lower() == "spell name" or spell:lower() == "nome da magia" or spell:trim():len() == 0) then
         return warn("[AttackBot]: please fill spell name!")
       end
 
@@ -952,7 +981,7 @@ end
     panel.monsters:setText("nomes dos monstros")
     panel.itemId:setItemId(0)
     panel.spellName:setText("nome da magia")
-    panel.orMore:setChecked(false)
+    panel.orMore:setChecked(true) -- Thyrania: "ou mais" ligado por padrão (sem isso, 1 = exatamente 1 monstro na tela)
   end
   resetFields()
 
