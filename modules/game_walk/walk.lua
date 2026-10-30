@@ -286,6 +286,9 @@ end
 --- Utility functions for binding and unbinding keys.
 function bindWalkKey(key, dir)
     local gameRootPanel = modules.game_interface.getRootPanel()
+    -- o chat (WASD), o analyser e o login religam as teclas sem desligar antes; o bind
+    -- acumula e cada tecla andava 2 (ou mais) sqm. Desliga primeiro para nunca duplicar.
+    unbindWalkKey(key)
 
     g_keyboard.bindKeyDown(key, function()
         g_keyboard.setKeyDelay(key, 1)
@@ -302,6 +305,7 @@ end
 
 function bindTurnKey(key, dir)
     local gameRootPanel = modules.game_interface.getRootPanel()
+    unbindTurnKey(key)
 
     g_keyboard.bindKeyDown(key, function() turn(dir, false) end, gameRootPanel)
     g_keyboard.bindKeyPress(key, function() turn(dir, true) end, gameRootPanel)
