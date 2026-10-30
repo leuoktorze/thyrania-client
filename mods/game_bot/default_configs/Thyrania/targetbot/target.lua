@@ -18,7 +18,7 @@ ui.status.left:setText("Status:")
 ui.status.right:setText("Desl.")
 ui.target.left:setText("Alvo:")
 ui.target.right:setText("-")
-ui.config.left:setText("Config:")
+ui.config.left:setText("Regra:")
 ui.config.right:setText("-")
 ui.danger.left:setText("Perigo:")
 ui.danger.right:setText("0")
@@ -117,6 +117,17 @@ targetbotMacro = macro(100, function()
   end
 end)
 
+-- Thyrania: perfil inicial ("Padrao", criado sozinho na primeira vez): ataca qualquer monstro (*),
+-- persegue, sem looting (o servidor tem loot pouch / !autoloot).
+local DEFAULT_PROFILE = {
+  targeting = {
+    { name = "*", regex = "^.*$", priority = 1, danger = 1, maxDistance = 10, keepDistanceRange = 1,
+      anchorRange = 3, chase = true, keepDistance = false, anchor = false, dontLoot = false,
+      faceMonster = false, avoidAttacks = false, diamondArrows = false, rpSafe = false },
+  },
+  looting = { items = {}, containers = {}, everyItem = false, maxDanger = 10, minCapacity = 100 },
+}
+
 -- config, its callback is called immediately, data can be nil
 config = Config.setup("targetbot_configs", configWidget, "json", function(name, enabled, data)
   if not data then
@@ -139,7 +150,7 @@ config = Config.setup("targetbot_configs", configWidget, "json", function(name, 
   targetbotMacro.setOn(enabled)
   targetbotMacro.delay = nil
   lureEnabled = true
-end)
+end, DEFAULT_PROFILE)
 
 -- setup ui
 ui.editor.buttons.add.onClick = function()

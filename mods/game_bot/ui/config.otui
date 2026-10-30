@@ -22,11 +22,11 @@ BotConfig < Panel
     anchors.right: parent.right
     margin-left: 5
     $on:
-      text: On
+      text: Lig.
       color: #00AA00
 
     $!on:
-      text: Off
+      text: Desl.
       color: #FF0000
 
   Button
@@ -34,7 +34,7 @@ BotConfig < Panel
     id: add
     anchors.top: prev.bottom
     anchors.left: parent.left
-    text: Add
+    text: Novo
     width: 56
     height: 18
     text-offet: 0 2
@@ -43,7 +43,7 @@ BotConfig < Panel
     id: edit
     anchors.top: prev.top
     anchors.horizontalCenter: parent.horizontalCenter
-    text: Edit
+    text: Editar
     width: 56
     height: 18
     text-offet: 0 2
@@ -52,7 +52,7 @@ BotConfig < Panel
     id: remove
     anchors.top: prev.top
     anchors.right: parent.right
-    text: Remove
+    text: Apagar
     width: 56
     height: 18
     text-offet: 0 2

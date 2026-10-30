@@ -127,7 +127,9 @@ end
 
 -- setup is used for BotConfig widget
 -- not done yet
-Config.setup = function(dir, widget, configExtension, callback)
+-- Thyrania: defaultData (opcional) = conteudo do perfil "Padrao", criado sozinho quando a pasta
+-- ainda nao tem nenhum perfil (sem perfil nada liga e salvar dava erro).
+Config.setup = function(dir, widget, configExtension, callback, defaultData)
   if type(dir) ~= 'string' or dir:len() == 0 then
     return context.error("Invalid config dir")
   end
@@ -150,6 +152,16 @@ Config.setup = function(dir, widget, configExtension, callback)
   local refresh = function()
     isRefreshing = true
     local configs = Config.list(dir)
+    if #configs == 0 then
+      local file = context.configDir .. "/" .. dir .. "/Padrao." .. configExtension
+      if configExtension == "json" then
+        g_resources.writeFileContents(file, json.encode(defaultData or {}, 2))
+      else
+        g_resources.writeFileContents(file, "")
+      end
+      context.storage._configs[dir].selected = "Padrao"
+      configs = Config.list(dir)
+    end
     local configIndex = 1
     widget.list:clear()
     for v, k in ipairs(configs) do
@@ -258,7 +270,12 @@ Config.setup = function(dir, widget, configExtension, callback)
       end
     end,
     save = function(data)
-      Config.save(dir, context.storage._configs[dir].selected, data, configExtension)
+      local name = context.storage._configs[dir].selected
+      if not name or name == "" then
+        name = "Padrao"
+        context.storage._configs[dir].selected = name
+      end
+      Config.save(dir, name, data, configExtension)
     end,
     refresh = refresh,
     reload = refresh,

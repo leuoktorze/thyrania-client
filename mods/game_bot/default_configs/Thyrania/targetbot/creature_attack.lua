@@ -11,7 +11,7 @@ function getWalkableTilesCount(position)
   local count = 0
 
   for i, tile in pairs(getNearTiles(position)) do
-      if tile:isWalkable() or tile:hasCreature() then
+      if tile:isWalkable() or tile:hasCreatures() then
           count = count + 1
       end
   end
@@ -29,7 +29,7 @@ function rePosition(minTiles)
 
   if playerTilesCount > minTiles then return end
   for i, tile in ipairs(tiles) do
-      tilesTable[tile] = not tile:hasCreature() and tile:isWalkable() and getWalkableTilesCount(tile:getPosition()) or nil
+      tilesTable[tile] = not tile:hasCreatures() and tile:isWalkable() and getWalkableTilesCount(tile:getPosition()) or nil
   end
 
   local best = 0
@@ -113,6 +113,7 @@ TargetBot.Creature.attack = function(params, targets, isLooting) -- params {conf
 end
 
 TargetBot.Creature.walk = function(creature, config, targets)
+  local killUnder = (storage.extras and storage.extras.killUnder) or 1 -- Thyrania: sem erro se o Extras ainda nao carregou
   local cpos = creature:getPosition()
   local pos = player:getPosition()
   
@@ -148,7 +149,7 @@ TargetBot.Creature.walk = function(creature, config, targets)
   if config.closeLure and config.closeLureAmount <= getMonsters(1) then
     return TargetBot.allowCaveBot(150)
   end
-  if TargetBot.canLure() and (config.lure or config.lureCavebot or config.dynamicLure) and not (creature:getHealthPercent() < (storage.extras.killUnder or 30)) and not isTrapped then
+  if TargetBot.canLure() and (config.lure or config.lureCavebot or config.dynamicLure) and not (creature:getHealthPercent() < killUnder) and not isTrapped then
     if targetBotLure then
       anchorPosition = nil
       return TargetBot.allowCaveBot(150)
@@ -168,10 +169,10 @@ TargetBot.Creature.walk = function(creature, config, targets)
   end
 
   local currentDistance = findPath(pos, cpos, 10, {ignoreCreatures=true, ignoreNonPathable=true, ignoreCost=true})
-  if (not config.chase or #currentDistance == 1) and not config.avoidAttacks and not config.keepDistance and config.rePosition and (creature:getHealthPercent() >= storage.extras.killUnder) then
+  if (not config.chase or #currentDistance == 1) and not config.avoidAttacks and not config.keepDistance and config.rePosition and (creature:getHealthPercent() >= killUnder) then
     return rePosition(config.rePositionAmount or 6)
   end
-  if ((storage.extras.killUnder > 1 and (creature:getHealthPercent() < storage.extras.killUnder)) or config.chase) and not config.keepDistance then
+  if ((killUnder > 1 and (creature:getHealthPercent() < killUnder)) or config.chase) and not config.keepDistance then
     if #currentDistance > 1 then
       return TargetBot.walkTo(cpos, 10, {ignoreNonPathable=true, precision=1})
     end

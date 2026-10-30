@@ -8,4 +8,5 @@ CaveBot.setOn = function() return false end
 CaveBot.setOff = function() return true end
 CaveBot.delay = function() return true end
 CaveBot.walkTo = function() return false end
+CaveBot.GoTo = function(pos, precision) return autoWalk(pos, 20, { precision = precision or 0 }) end -- usado pelo 'reposicionar' do Alvo
 CaveBot.Extensions = {}

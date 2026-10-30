@@ -217,25 +217,27 @@ function updateCooldown(progressRect, duration)
     end
 end
 
+-- Thyrania: o cooldown fica guardado como "acaba em" (millis) e vale mesmo com a barra de cooldowns
+-- escondida ou sem ícone da magia. Antes, com a barra fechada nada era guardado e o Auxiliador achava
+-- que toda magia estava pronta (a rotação do AttackBot ficava presa na primeira, ex.: só exori).
 function isGroupCooldownIconActive(groupId)
-    if hasTierUpgradeFeature() then
-        local current = groupCooldown[groupId]
-        return type(current) == 'number' and g_clock.millis() < current
-    else
-        return groupCooldown[groupId] == true
+    local current = groupCooldown[groupId]
+    if type(current) == 'number' then
+        return g_clock.millis() < current
     end
+    return current == true
 end
 
 function isCooldownIconActive(iconId)
-    if hasTierUpgradeFeature() then
-        local current = cooldown[iconId]
-        return type(current) == 'number' and g_clock.millis() < current
-    else
-        return cooldown[iconId] == true
+    local current = cooldown[iconId]
+    if type(current) == 'number' then
+        return g_clock.millis() < current
     end
+    return current == true
 end
 
 function onSpellCooldown(iconId, duration)
+    cooldown[iconId] = g_clock.millis() + duration
     if not cooldownWindow:isVisible() then
         return
     end
@@ -263,14 +265,10 @@ function onSpellCooldown(iconId, duration)
         cooldown[iconId] = nil
     end
     initCooldown(progressRect, updateFunc, finishFunc)
-    if hasTierUpgradeFeature() then
-        cooldown[iconId] = g_clock.millis() + duration
-    else
-        cooldown[iconId] = true
-    end
 end
 
 function onSpellGroupCooldown(groupId, duration)
+    groupCooldown[groupId] = g_clock.millis() + duration
     if not cooldownWindow:isVisible() then
         return
     end
@@ -296,11 +294,6 @@ function onSpellGroupCooldown(groupId, duration)
             groupCooldown[groupId] = nil
         end
         initCooldown(progressRect, updateFunc, finishFunc)
-        if hasTierUpgradeFeature() then
-            groupCooldown[groupId] = g_clock.millis() + duration
-        else
-            groupCooldown[groupId] = true
-        end
     end
 end
 

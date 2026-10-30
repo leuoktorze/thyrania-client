@@ -72,14 +72,14 @@ ExtrasWindow < MainWindow
     anchors.right: parent.horizontalCenter
     anchors.top: parent.top
     text-align: center
-    text: < CaveBot >
+    text: < Alvo e loot >
 
   Label
     anchors.left: parent.horizontalCenter
     anchors.right: parent.right
     anchors.top: parent.top
     text-align: center
-    text: < Miscellaneous >
+    text: < Outros >
 
   VerticalScrollBar
     id: contentScroll

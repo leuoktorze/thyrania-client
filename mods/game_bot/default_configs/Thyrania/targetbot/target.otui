@@ -41,6 +41,15 @@ TargetBotPanel < Panel
   TargetBotDualLabel
     id: danger
 
+  Label
+    id: help
+    height: 14
+    margin-left: 3
+    margin-top: 2
+    font: verdana-11px-rounded
+    color: #9a9a9a
+    text: * = todos os monstros  |  2 cliques edita
+
   Panel
     id: listPanel
     height: 40

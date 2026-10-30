@@ -12,59 +12,59 @@ local mainWindow
 -- label library
 
 local categories = {
-  "Targeted Spell (exori hur, exori flam, etc)",
-  "Area Rune (avalanche, great fireball, etc)",
-  "Targeted Rune (sudden death, icycle, etc)",
-  "Empowerment (utito tempo, etc)",
-  "Absolute Spell (exori, hells core, etc)",
+  "Magia no alvo (exori hur, exori flam...)",
+  "Runa de área (avalanche, gfb...)",
+  "Runa no alvo (sudden death, icicle...)",
+  "Buff (utito tempo...)",
+  "Magia em área (exori, hells core...)",
 }
 
 local patterns = {
   -- targeted spells
   {
-    "1 Sqm Range (exori ico)",
-    "2 Sqm Range",
-    "3 Sqm Range (strike spells)",
-    "4 Sqm Range (exori san)",
-    "5 Sqm Range (exori hur)",
-    "6 Sqm Range",
-    "7 Sqm Range (exori con)",
-    "8 Sqm Range",
-    "9 Sqm Range",
-    "10 Sqm Range"
+    "Até 1 sqm (exori ico)",
+    "Até 2 sqm",
+    "Até 3 sqm (strikes)",
+    "Até 4 sqm (exori san)",
+    "Até 5 sqm (exori hur)",
+    "Até 6 sqm",
+    "Até 7 sqm (exori con)",
+    "Até 8 sqm",
+    "Até 9 sqm",
+    "Até 10 sqm"
   },
   -- area runes
   {
-    "Cross (explosion)",
-    "Bomb (fire bomb)",
-    "Ball (gfb, avalanche)"
+    "Cruz (explosion)",
+    "Bomba (fire bomb)",
+    "Bola (gfb, avalanche)"
   },
   -- empowerment/targeted rune
   {
-    "1 Sqm Range",
-    "2 Sqm Range",
-    "3 Sqm Range",
-    "4 Sqm Range",
-    "5 Sqm Range",
-    "6 Sqm Range",
-    "7 Sqm Range",
-    "8 Sqm Range",
-    "9 Sqm Range",
-    "10 Sqm Range",
+    "Até 1 sqm",
+    "Até 2 sqm",
+    "Até 3 sqm",
+    "Até 4 sqm",
+    "Até 5 sqm",
+    "Até 6 sqm",
+    "Até 7 sqm",
+    "Até 8 sqm",
+    "Até 9 sqm",
+    "Até 10 sqm",
   },
   -- absolute
   {
-    "Adjacent (exori, exori gran)",
-    "3x3 Wave (vis hur, tera hur)",
-    "Small Area (mas san, exori mas)",
-    "Medium Area (mas flam, mas frigo)",
-    "Large Area (mas vis, mas tera)",
-    "Short Beam (vis lux)",
-    "Large Beam (gran vis lux)",
-    "Sweep (exori min)", -- 8
-    "Small Wave (gran frigo hur)",
-    "Big Wave (flam hur, frigo hur)",
-    "Huge Wave (gran flam hur)",
+    "Em volta (exori, exori gran)",
+    "Onda 3x3 (vis hur, tera hur)",
+    "Área pequena (mas san, exori mas)",
+    "Área média (mas flam, mas frigo)",
+    "Área grande (mas vis, mas tera)",
+    "Raio curto (vis lux)",
+    "Raio longo (gran vis lux)",
+    "Varredura (exori min)", -- 8
+    "Onda pequena (gran frigo hur)",
+    "Onda grande (flam hur, frigo hur)",
+    "Onda enorme (gran flam hur)",
   }
 }
 
@@ -819,12 +819,12 @@ end
         return warn("[AttackBot]: please fill spell name!")
       end
 
-      local regex = patternCategory ~= 1 and [[^[^\(]+]] or [[^[^R]+]]
+      local regex = [[^[^\(]+]] -- Thyrania: rótulos traduzidos, corta antes do "("
       local type = regexMatch(patterns[patternCategory][pattern], regex)[1][1]:trim()
       regex = [[^[^ ]+]]
       local categoryName = regexMatch(categories[category], regex)[1][1]:trim():lower()
-      local specificMonsters = monsters == true and "Any Creatures" or "Creatures"
-      local attackType = showItem and "rune "..itemId or spell
+      local specificMonsters = monsters == true and "qualquer criatura" or "criaturas"
+      local attackType = showItem and "runa "..itemId or spell
 
       local countDescription = orMore and count.."+" or count
 
