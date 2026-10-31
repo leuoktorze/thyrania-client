@@ -36,6 +36,7 @@ local luaFiles = {
   "new_healer",
   "mana_trainer",
   "AttackBot",
+  "Helper", -- Auxiliador Thyrania: janela única (cura, ataque, haste, comida, gold)
   "eat_food",
   "hold_target",
   -- "playerlist",

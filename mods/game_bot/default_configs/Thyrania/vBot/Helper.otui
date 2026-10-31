@@ -1,0 +1,696 @@
+ThyHelperSlot < UIWidget
+  size: 34 34
+  background-color: #1b1b1b
+  border-width: 1
+  border-color: #5a5a5a
+  focusable: false
+  $hover:
+    border-color: #a0a0a0
+
+  UIWidget
+    id: icon
+    anchors.fill: parent
+    margin: 1
+    phantom: true
+
+  Label
+    id: empty
+    anchors.centerIn: parent
+    text: ...
+    color: #707070
+    phantom: true
+
+ThyHelperItem < BotItem
+  size: 34 34
+
+ThyHelperSpin < SpinBox
+  size: 52 20
+  minimum: 0
+  maximum: 100
+  step: 1
+  editable: true
+  focusable: true
+
+ThyHelperSection < Label
+  height: 15
+  color: #fe9a2e
+  font: verdana-11px-rounded
+  text-align: left
+
+ThyHelperHead < Label
+  height: 15
+  color: #c0c0c0
+  font: verdana-11px-rounded
+  text-align: center
+
+ThyHelperCheck < CheckBox
+  height: 16
+  font: verdana-11px-rounded
+
+ThyHelperKey < Button
+  size: 80 18
+  font: verdana-11px-rounded
+
+ThyHelperAtkRow < Panel
+  height: 38
+
+  ThyHelperSlot
+    id: slot
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 6
+
+  ThyHelperSpin
+    id: mana
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 62
+
+  ThyHelperSpin
+    id: count
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 140
+    minimum: 1
+    maximum: 15
+
+  ThyHelperSpin
+    id: prio
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 218
+    minimum: 1
+    maximum: 9
+
+ThyHelperRuneRow < Panel
+  height: 38
+
+  ThyHelperItem
+    id: slot
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 6
+
+  ThyHelperSpin
+    id: count
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 62
+    minimum: 1
+    maximum: 15
+
+  ThyHelperSpin
+    id: prio
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 140
+    minimum: 1
+    maximum: 9
+
+ThyHelperHealRow < Panel
+  height: 38
+
+  ThyHelperSlot
+    id: slot
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 6
+
+  ThyHelperSpin
+    id: hp
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 62
+
+  ThyHelperSpin
+    id: mana
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 140
+
+ThyHelperPotionRow < Panel
+  height: 38
+
+  ThyHelperItem
+    id: slot
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 6
+
+  Button
+    id: kind
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 62
+    size: 52 20
+    text: HP
+    font: verdana-11px-rounded
+
+  ThyHelperSpin
+    id: pct
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 140
+
+ThyHelperSpellEntry < UIWidget
+  height: 36
+  background-color: alpha
+  focusable: true
+  $hover:
+    background-color: #ffffff22
+
+  UIWidget
+    id: icon
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    size: 32 32
+    margin-left: 2
+    phantom: true
+
+  Label
+    id: name
+    anchors.left: icon.right
+    anchors.right: parent.right
+    anchors.top: parent.top
+    margin-left: 6
+    margin-top: 3
+    height: 15
+    font: verdana-11px-rounded
+    color: #e0e0e0
+    phantom: true
+
+  Label
+    id: words
+    anchors.left: icon.right
+    anchors.right: parent.right
+    anchors.top: name.bottom
+    margin-left: 6
+    height: 15
+    font: verdana-11px-rounded
+    color: #a0a0a0
+    phantom: true
+
+ThyHelperSpellPicker < MainWindow
+  size: 300 420
+  text: Escolha a magia
+  @onEscape: self:destroy()
+
+  Label
+    id: hint
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 15
+    text-align: center
+    font: verdana-11px-rounded
+    color: #aeaeae
+    text: Clique na magia. Botão direito no slot limpa.
+
+  ScrollablePanel
+    id: spellList
+    anchors.top: hint.bottom
+    anchors.left: parent.left
+    anchors.right: scroll.left
+    anchors.bottom: closeButton.top
+    margin-top: 6
+    margin-bottom: 8
+    vertical-scrollbar: scroll
+    layout:
+      type: verticalBox
+
+  VerticalScrollBar
+    id: scroll
+    anchors.top: spellList.top
+    anchors.bottom: spellList.bottom
+    anchors.right: parent.right
+    step: 36
+    pixels-scroll: true
+
+  Button
+    id: closeButton
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    size: 60 20
+    text: Fechar
+    @onClick: self:getParent():destroy()
+
+ThyHelperWindow < MainWindow
+  size: 680 470
+  text: Auxiliador Thyrania
+  @onEscape: self:hide()
+
+  Panel
+    id: left
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.bottom: closeButton.top
+    margin-bottom: 8
+    width: 200
+    image-source: /images/ui/panel_flat
+    image-border: 5
+    padding: 8
+
+    BotSwitch
+      id: enabled
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+      height: 22
+      text: Auxiliador: Desligado
+
+    Label
+      id: presetLabel
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-top: 10
+      text: Preset:
+      font: verdana-11px-rounded
+
+    ComboBox
+      id: preset
+      anchors.top: presetLabel.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 3
+      height: 20
+
+    Button
+      id: presetNew
+      anchors.top: preset.bottom
+      anchors.left: parent.left
+      margin-top: 4
+      size: 56 18
+      text: Novo
+      font: verdana-11px-rounded
+
+    Button
+      id: presetRename
+      anchors.top: prev.top
+      anchors.left: prev.right
+      margin-left: 4
+      size: 64 18
+      text: Renomear
+      font: verdana-11px-rounded
+
+    Button
+      id: presetDelete
+      anchors.top: prev.top
+      anchors.left: prev.right
+      anchors.right: parent.right
+      margin-left: 4
+      height: 18
+      text: Apagar
+      font: verdana-11px-rounded
+
+    Label
+      id: keyLabel
+      anchors.top: presetNew.bottom
+      anchors.left: parent.left
+      margin-top: 10
+      text: Tecla liga/desliga:
+      font: verdana-11px-rounded
+
+    ThyHelperKey
+      id: toggleKey
+      anchors.verticalCenter: keyLabel.verticalCenter
+      anchors.right: parent.right
+      width: 64
+
+    HorizontalSeparator
+      anchors.top: keyLabel.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 10
+
+    ThyHelperSection
+      id: moveLabel
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-top: 8
+      text: Movimento
+
+    ThyHelperSlot
+      id: hasteSlot
+      anchors.top: moveLabel.bottom
+      anchors.left: parent.left
+      margin-top: 4
+
+    ThyHelperCheck
+      id: autoHaste
+      anchors.top: hasteSlot.top
+      anchors.left: hasteSlot.right
+      anchors.right: parent.right
+      margin-left: 6
+      text: Auto haste
+
+    ThyHelperCheck
+      id: hastePz
+      anchors.top: autoHaste.bottom
+      anchors.left: autoHaste.left
+      anchors.right: parent.right
+      margin-top: 2
+      text: Também em PZ
+
+    HorizontalSeparator
+      anchors.top: hasteSlot.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 8
+
+    ThyHelperSection
+      id: funcLabel
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-top: 8
+      text: Funções
+
+    ThyHelperCheck
+      id: autoEat
+      anchors.top: funcLabel.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 4
+      text: Comer sozinho
+
+    ThyHelperCheck
+      id: autoReconnect
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 3
+      text: Reconectar sozinho
+
+    HorizontalSeparator
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 8
+
+    ThyHelperSection
+      id: huntLabel
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-top: 8
+      text: Caça
+
+    ThyHelperCheck
+      id: changeGold
+      anchors.top: huntLabel.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 4
+      text: Trocar gold sozinho
+
+  Button
+    id: tabHeal
+    anchors.top: parent.top
+    anchors.left: left.right
+    margin-left: 8
+    size: 228 26
+    text: Cura
+
+  Button
+    id: tabAttack
+    anchors.top: parent.top
+    anchors.left: prev.right
+    anchors.right: parent.right
+    margin-left: 4
+    height: 26
+    text: Ataque
+
+  Panel
+    id: heal
+    anchors.top: tabHeal.bottom
+    anchors.left: left.right
+    anchors.right: parent.right
+    anchors.bottom: closeButton.top
+    margin-left: 8
+    margin-top: 4
+    margin-bottom: 8
+    image-source: /images/ui/panel_flat
+    image-border: 5
+    padding: 8
+
+    ThyHelperSection
+      id: healSpellsLabel
+      anchors.top: parent.top
+      anchors.left: parent.left
+      text: Magias de cura (a de cima tem prioridade)
+
+    ThyHelperHead
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-top: 4
+      margin-left: 2
+      width: 44
+      text: Magia
+
+    ThyHelperHead
+      anchors.top: prev.top
+      anchors.left: parent.left
+      margin-left: 56
+      width: 64
+      text: HP abaixo
+
+    ThyHelperHead
+      anchors.top: prev.top
+      anchors.left: parent.left
+      margin-left: 134
+      width: 64
+      text: Mana mín.
+
+    Panel
+      id: healSpells
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      height: 114
+      layout:
+        type: verticalBox
+
+    ThyHelperSection
+      id: potionsLabel
+      anchors.top: healSpells.bottom
+      anchors.left: parent.left
+      margin-top: 10
+      text: Potions e itens (arraste o item para o slot)
+
+    ThyHelperHead
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-top: 4
+      margin-left: 2
+      width: 44
+      text: Item
+
+    ThyHelperHead
+      anchors.top: prev.top
+      anchors.left: parent.left
+      margin-left: 56
+      width: 64
+      text: Barra
+
+    ThyHelperHead
+      anchors.top: prev.top
+      anchors.left: parent.left
+      margin-left: 134
+      width: 64
+      text: Abaixo de %
+
+    Panel
+      id: potions
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      height: 152
+      layout:
+        type: verticalBox
+
+  Panel
+    id: attack
+    anchors.top: tabHeal.bottom
+    anchors.left: left.right
+    anchors.right: parent.right
+    anchors.bottom: closeButton.top
+    margin-left: 8
+    margin-top: 4
+    margin-bottom: 8
+    image-source: /images/ui/panel_flat
+    image-border: 5
+    padding: 8
+    visible: false
+
+    ThyHelperHead
+      id: hSpell
+      anchors.top: parent.top
+      anchors.left: parent.left
+      margin-left: 2
+      width: 44
+      text: Magia
+
+    ThyHelperHead
+      anchors.top: prev.top
+      anchors.left: parent.left
+      margin-left: 56
+      width: 64
+      text: Mana %
+
+    ThyHelperHead
+      anchors.top: prev.top
+      anchors.left: parent.left
+      margin-left: 134
+      width: 64
+      text: Monstros
+
+    ThyHelperHead
+      anchors.top: prev.top
+      anchors.left: parent.left
+      margin-left: 212
+      width: 64
+      text: Prioridade
+
+    Panel
+      id: spells
+      anchors.top: hSpell.bottom
+      anchors.left: parent.left
+      width: 280
+      height: 190
+      layout:
+        type: verticalBox
+
+    VerticalSeparator
+      id: midSep
+      anchors.top: parent.top
+      anchors.bottom: spells.bottom
+      anchors.left: spells.right
+      margin-left: 2
+
+    ThyHelperHead
+      id: hRune
+      anchors.top: parent.top
+      anchors.left: midSep.right
+      margin-left: 8
+      width: 44
+      text: Runa
+
+    ThyHelperHead
+      anchors.top: prev.top
+      anchors.left: hRune.left
+      margin-left: 54
+      width: 64
+      text: Monstros
+
+    ThyHelperHead
+      anchors.top: prev.top
+      anchors.left: hRune.left
+      margin-left: 132
+      width: 64
+      text: Prioridade
+
+    Panel
+      id: runes
+      anchors.top: hRune.bottom
+      anchors.left: midSep.right
+      anchors.right: parent.right
+      margin-left: 2
+      height: 76
+      layout:
+        type: verticalBox
+
+    Label
+      id: runeHint
+      anchors.top: runes.bottom
+      anchors.left: runes.left
+      anchors.right: parent.right
+      margin-top: 6
+      margin-left: 6
+      height: 60
+      text-wrap: true
+      text-align: topLeft
+      font: verdana-11px-rounded
+      color: #9a9a9a
+      text: Monstros = quantos monstros precisam estar na área (ou perto do alvo, nas runas de área). Prioridade 1 vem primeiro.
+
+    HorizontalSeparator
+      id: bottomSep
+      anchors.top: spells.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 6
+
+    ThyHelperCheck
+      id: face
+      anchors.top: bottomSep.bottom
+      anchors.left: parent.left
+      margin-top: 8
+      width: 230
+      text: Virar para o alvo (ondas e beams)
+
+    ThyHelperCheck
+      id: combo
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-top: 4
+      width: 230
+      text: Combo na ordem da prioridade
+
+    ThyHelperCheck
+      id: hotkeyPrio
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-top: 4
+      width: 230
+      text: Hotkey tem prioridade
+
+    ThyHelperCheck
+      id: autoTarget
+      anchors.top: bottomSep.bottom
+      anchors.left: parent.left
+      margin-top: 8
+      margin-left: 250
+      width: 110
+      text: Alvo automático
+
+    ThyHelperKey
+      id: targetKey
+      anchors.verticalCenter: prev.verticalCenter
+      anchors.right: parent.right
+
+    ThyHelperCheck
+      id: attackOn
+      anchors.top: autoTarget.bottom
+      anchors.left: autoTarget.left
+      margin-top: 8
+      width: 110
+      text: Ataque (magias)
+
+    ThyHelperKey
+      id: attackKey
+      anchors.verticalCenter: prev.verticalCenter
+      anchors.right: parent.right
+
+    Button
+      id: bothKey
+      anchors.top: attackOn.bottom
+      anchors.right: parent.right
+      margin-top: 8
+      size: 80 18
+      text: Tecla p/ os 2
+      font: verdana-11px-rounded
+
+  Label
+    id: statusLabel
+    anchors.left: parent.left
+    anchors.right: closeButton.left
+    anchors.verticalCenter: closeButton.verticalCenter
+    margin-right: 10
+    text-align: left
+    font: verdana-11px-rounded
+    color: #aeaeae
+
+  Button
+    id: closeButton
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    size: 60 21
+    text: Fechar
